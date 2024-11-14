@@ -1,4 +1,4 @@
-﻿using Hospital_Management_System.Repository.MessageRepository;
+﻿using Hospital_Management_System.Services.MessageServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +8,17 @@ namespace Hospital_Management_System.Controllers.MessageController
     [Route("api/[controller]")]
     public class MessagesController : ControllerBase
     {
-        private readonly IMessageRepository _messageRepository;
-        public MessagesController(IMessageRepository messageRepository)
+        private readonly IMessageService _messageService;
+        public MessagesController(IMessageService messageService)
         {
-            _messageRepository = messageRepository;
+            _messageService = messageService;
         }
 
-        [HttpGet]
-        [Authorize(Roles = "ADMIN,DOCTOR,RECEPTIONIST")]
-        public async Task<IActionResult> GetAllMessages()
+        [HttpGet("{chatName}")]
+        [Authorize]
+        public async Task<IActionResult> GetAllMessages(string chatName)
         {
-            var messages = await _messageRepository.GetAllMessages();
+            var messages = await _messageService.GetAllChatMessagesAsync(chatName);
             return Ok(messages);
         }
     }

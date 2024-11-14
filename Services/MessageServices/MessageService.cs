@@ -1,4 +1,5 @@
-﻿using Hospital_Management_System.Models;
+﻿using Hospital_Management_System.DTO.MessageDTOs;
+using Hospital_Management_System.Models;
 using Hospital_Management_System.Repository.ChatRepository;
 using Hospital_Management_System.Repository.MessageRepository;
 
@@ -21,9 +22,24 @@ namespace Hospital_Management_System.Services.MessageServices
                 SenderId = sender,
                 ReceiverId = receiver,
                 MessageInformation = message,
+                MessageReceived = DateTime.UtcNow,
                 ChatId = chatId
             };
             await _messageRepository.AddMessage(mess);
+        }
+        public async Task<IEnumerable<MessageResponse>> GetAllChatMessagesAsync(string chatName)
+        {
+            var messages = await _messageRepository.GetMessagesByChatName(chatName);
+
+            var response = messages.Select(message => new MessageResponse
+            {
+                MessageId = message.MessageId,
+                SenderId = message.SenderId,
+                MessageReceived = message.MessageReceived,
+                ReceiverId = message.ReceiverId,
+                Message = message.MessageInformation
+            });
+            return response;
         }
     }
 }

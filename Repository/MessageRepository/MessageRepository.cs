@@ -18,9 +18,13 @@ namespace Hospital_Management_System.Repository.MessageRepository
            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Message>> GetAllMessages()
+        public async Task<IEnumerable<Message>> GetMessagesByChatName(string chatName)
         {
-            var messages = await _context.Messages.ToListAsync();
+            var messages = await _context.Messages
+                .Include(ch => ch.Chat)
+                .Where(ms => ms.Chat.ChatName == chatName)
+                .OrderBy(m => m.MessageReceived)
+                .ToListAsync();
             return messages;
         }
 
