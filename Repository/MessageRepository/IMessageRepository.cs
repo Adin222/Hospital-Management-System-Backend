@@ -6,6 +6,6 @@ namespace Hospital_Management_System.Repository.MessageRepository
     {
         Task<Message> GetMessageById(int id);
         Task AddMessage(Message message);
-        Task<IEnumerable<Message>> GetAllMessages();
+        Task<IEnumerable<Message>> GetMessagesByChatName(string chatName);
     }
 }
