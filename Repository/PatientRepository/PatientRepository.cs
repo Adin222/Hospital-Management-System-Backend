@@ -37,6 +37,12 @@ namespace Hospital_Management_System.Repository.PatientRepository
            return patient;
         }
 
+        public async Task<Patient> GetPatientBySSN(string ssn)
+        {
+            var patient = await _context.Patients.FirstOrDefaultAsync(patient => patient.JMBG == ssn) ?? throw new KeyNotFoundException("Patient doesn't exist");
+            return patient;
+        }
+
         public async Task<string> GetPatientNameById(int id)
         {
             var name = await _context.Patients

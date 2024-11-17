@@ -9,5 +9,6 @@ namespace Hospital_Management_System.Services.PatientServices
         Task<PatientDto> GetPatientByIdAsync(int id);
         Task DeletePatientByIdAsync(int id);
         Task UpdatePatientByIdAsync(int id, PatientUpdateDto patientDto);
+        Task<PatientDto> GetPatientBySSNAsync(string ssn);
     }
 }

@@ -105,6 +105,27 @@ namespace Hospital_Management_System.Services.PatientServices
             return response;
         }
 
+        public async Task<PatientDto> GetPatientBySSNAsync(string ssn)
+        {
+            var patient = await _patientRepository.GetPatientBySSN(ssn);
+            var response = new PatientDto
+            {
+                Id = patient.PatientID,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                DateOfBirth = patient.DateOfBirth,
+                Address = patient.Address,
+                Email = patient.Email,
+                PhoneNumber = patient.PhoneNumber,
+                City = patient.City,
+                Country = patient.Country,
+                Education = patient.Education,
+                JMBG = patient.JMBG,
+                CreatedAt = patient.CreatedAt,
+            };
+            return response;
+        }
+
         public async Task UpdatePatientByIdAsync(int id, PatientUpdateDto patientDto)
         {
             var patient = await _patientRepository.GetPatientByID(id);

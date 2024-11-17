@@ -20,6 +20,10 @@ using Hospital_Management_System.Repository.MessageRepository;
 using Hospital_Management_System.Repository.ChatRepository;
 using Hospital_Management_System.Services.MessageServices;
 using Hospital_Management_System.Services.ChatServices;
+using Hospital_Management_System.Services.DoctorServices;
+using Hospital_Management_System.Repository.DoctorRepository;
+using Hospital_Management_System.Services.DepartmentService;
+using Hospital_Management_System.Repository.DepartmentRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +88,8 @@ builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IRecordService, RecordService>();
 builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -93,6 +99,8 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IRecordRepository, RecordRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

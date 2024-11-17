@@ -55,5 +55,13 @@ namespace Hospital_Management_System.Controllers.PatientController
                await _patientService.UpdatePatientByIdAsync(id, body);
                return Ok("Patient has been successfully updated");
         }
+
+        [HttpGet("patient/ssn/{ssn}")]
+        [Authorize(Roles = "ADMIN,RECEPTIONIST")]
+        public async Task<IActionResult> GetPatientBySSN(string ssn)
+        {
+            var patient = await _patientService.GetPatientBySSNAsync(ssn);
+            return Ok(patient);
+        }
     }
 }

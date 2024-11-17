@@ -12,5 +12,6 @@ namespace Hospital_Management_System.Repository.PatientRepository
         Task UpdatePatient(Patient patient);
         Task<string> GetPatientNameById(int id);
         Task<Patient> PatientExists(int id);
+        Task<Patient> GetPatientBySSN(string ssn);
     }
 }
