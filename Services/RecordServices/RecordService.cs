@@ -75,9 +75,9 @@ namespace Hospital_Management_System.Services.RecordServices
             return response;
         }
 
-        public async Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsAsync()
+        public async Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsByDoctorIdAsync(int doctorId)
         {
-            var records = await _recordRepository.GetAllMedicalRecords();
+            var records = await _recordRepository.GetAllMedicalRecordsByDoctorId(doctorId);
 
             var tasks = records.Select(async record => new RecordResponse
             {
@@ -135,6 +135,22 @@ namespace Hospital_Management_System.Services.RecordServices
             {
                throw new InvalidOperationException("Invalid data");
             } 
+        }
+
+        public async Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsAsync()
+        {
+            var records = await _recordRepository.GetAllMedicalRecords();
+
+            var tasks = records.Select(async record => new RecordResponse
+            {
+                Id = record.RecordID,
+                DoctorName = await _userRepository.GetDoctorNameByDoctorId(record.DoctorID),
+                PatientName = await _patientRepository.GetPatientNameById(record.PatientID),
+                AppointmentTime = record.CreatedAt
+            }).ToList();
+
+            var responses = await Task.WhenAll(tasks);
+            return responses;
         }
     }
 }

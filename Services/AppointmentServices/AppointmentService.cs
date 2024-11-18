@@ -51,6 +51,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
 
             var response = new AppointmentResponse
             {
+                Id = appointment.AppointmentID,
                 DoctorName = doctorName,
                 ReceptionistName = receptionist,
                 PatientName = patient.FirstName,
@@ -61,20 +62,20 @@ namespace Hospital_Management_System.Services.AppointmentServices
             return response;
         }
 
-        public async Task<IEnumerable<AppointmentResponse>> GetAllAppointments()
+        public async Task<IEnumerable<AppointmentDTO>> GetAllAppointments()
         {
             var appointments = await _appointmentRepository.GetAllAppointments();
-            var tasks = appointments.Select(async appointment => new AppointmentResponse
+            var response = appointments.Select(appointment => new AppointmentDTO
             {
-                DoctorName = await _userRepository.GetDoctorNameByDoctorId(appointment.DoctorID),
-                ReceptionistName = await _userRepository.GetUserNameById(appointment.ReceptionistID),
-                PatientName = await _patientRepository.GetPatientNameById(appointment.PatientID),
+                Id = appointment.AppointmentID,
+                DoctorId = appointment.DoctorID,
+                ReceptionistId = appointment.ReceptionistID,
+                PatientId = appointment.PatientID,
                 ReasonForVisit = appointment.ReasonForVisit,
-                Reservation = appointment.AppointmentDateTime
+                AppointmentDate = appointment.AppointmentDateTime
             });
 
-            var responses = await Task.WhenAll(tasks);
-            return responses;
+            return response;
         }
 
 
@@ -88,6 +89,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
 
             var response = new AppointmentResponse
             {
+                Id = appointment.AppointmentID,
                 DoctorName = doctorName,
                 ReceptionistName = receptionist,
                 PatientName = patient,
@@ -120,6 +122,22 @@ namespace Hospital_Management_System.Services.AppointmentServices
                 appointment.ReasonForVisit = req.ReasonForVisit;
             }
             await _appointmentRepository.UpdateAppointment(appointment);
+        }
+
+        public async Task<IEnumerable<AppointmentDTO>> GetAllAppointmentsByDoctorIdAsync(int doctorId)
+        {
+            var appointments = await _appointmentRepository.GetAppointmentsByDoctorId(doctorId);
+
+            var response = appointments.Select(appointment => new AppointmentDTO
+            {
+                Id = appointment.AppointmentID,
+                DoctorId = appointment.DoctorID,
+                ReceptionistId = appointment.ReceptionistID,
+                PatientId = appointment.PatientID,
+                ReasonForVisit = appointment.ReasonForVisit,
+                AppointmentDate = appointment.AppointmentDateTime
+            });
+            return response;
         }
     }
 }

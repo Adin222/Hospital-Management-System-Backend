@@ -24,7 +24,14 @@ namespace Hospital_Management_System.Repository.RecordsRepository
 
         public async Task<IEnumerable<MedicalRecord>> GetAllMedicalRecords()
         {
-            return await _context.MedicalRecords.ToListAsync();
+            var records = await _context.MedicalRecords.ToListAsync();
+            return records;
+        }
+
+        public async Task<IEnumerable<MedicalRecord>> GetAllMedicalRecordsByDoctorId(int doctorId)
+        {
+            var records = await _context.MedicalRecords.Where(dc => dc.DoctorID == doctorId).ToListAsync();
+            return records;
         }
 
         public async Task<MedicalRecord> GetMedicalRecordById(int id)

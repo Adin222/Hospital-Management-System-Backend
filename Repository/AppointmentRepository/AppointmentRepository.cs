@@ -49,6 +49,12 @@ namespace Hospital_Management_System.Repository.AppointmentRepository
             return appointment;
         }
 
+        public async Task<IEnumerable<Appointment>> GetAppointmentsByDoctorId(int doctorId)
+        {
+            var appointments = await _context.Appointments.Where(ap => ap.DoctorID == doctorId).ToArrayAsync();
+            return appointments;
+        }
+
         public async Task UpdateAppointment(Appointment appointment)
         {
             _context.Appointments.Update(appointment);

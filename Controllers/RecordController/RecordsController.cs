@@ -24,6 +24,15 @@ namespace Hospital_Management_System.Controllers.RecordController
              return Ok(records);
         }
 
+        [HttpGet("{doctorId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> GetAllRecordsOfDoctor(int doctorId)
+        {
+            var record = await _recordService.GetAllMedicalRecordsByDoctorIdAsync(doctorId);
+            return Ok(record);
+        }
+
+
         [HttpGet("record/{id}")]
         [Authorize(Roles = "ADMIN,DOCTOR")]
         public async Task<IActionResult> GetRecordById(int id)

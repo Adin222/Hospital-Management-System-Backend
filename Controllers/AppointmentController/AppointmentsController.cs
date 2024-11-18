@@ -32,6 +32,14 @@ namespace Hospital_Management_System.Controllers.AppointmentController
                return Ok(appointments);
         }
 
+        [HttpGet("{doctorId}")]
+        [Authorize(Roles = "DOCTOR,ADMIN")]
+        public async Task<IActionResult> GetAllAppointmentsOfDoctor(int doctorId)
+        {
+            var appointments = await _appointmentService.GetAllAppointmentsByDoctorIdAsync(doctorId);
+            return Ok(appointments);
+        }
+
         [HttpGet("appointment/{id}")]
         [Authorize(Roles = "RECEPTIONIST,ADMIN")]
         public async Task<IActionResult> GetAppointment(int id)
