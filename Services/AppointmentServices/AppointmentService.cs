@@ -3,7 +3,6 @@ using Hospital_Management_System.Models;
 using Hospital_Management_System.Repository.AppointmentRepository;
 using Hospital_Management_System.Repository.PatientRepository;
 using Hospital_Management_System.Repository.UserRepository;
-using System.IO;
 
 namespace Hospital_Management_System.Services.AppointmentServices
 {
@@ -27,7 +26,6 @@ namespace Hospital_Management_System.Services.AppointmentServices
             {
                 throw new KeyNotFoundException("Receptionist doesn't exist");
             }
-
 
             var appointment = new Appointment
             {
@@ -56,6 +54,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
                 ReceptionistName = receptionist,
                 PatientName = patient.FirstName,
                 ReasonForVisit = req.ReasonForVisit,
+                Status = req.Status,
                 Reservation = appointment.AppointmentDateTime
             };
             await _appointmentRepository.AddAppointmentAsync(appointment);
@@ -72,6 +71,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
                 ReceptionistId = appointment.ReceptionistID,
                 PatientId = appointment.PatientID,
                 ReasonForVisit = appointment.ReasonForVisit,
+                Status = appointment.Status,
                 AppointmentDate = appointment.AppointmentDateTime
             });
 
@@ -94,6 +94,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
                 ReceptionistName = receptionist,
                 PatientName = patient,
                 ReasonForVisit = appointment.ReasonForVisit,
+                Status = appointment.Status,
                 Reservation = appointment.AppointmentDateTime
             };
             return response;
@@ -135,6 +136,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
                 ReceptionistId = appointment.ReceptionistID,
                 PatientId = appointment.PatientID,
                 ReasonForVisit = appointment.ReasonForVisit,
+                Status = appointment.Status,
                 AppointmentDate = appointment.AppointmentDateTime
             });
             return response;

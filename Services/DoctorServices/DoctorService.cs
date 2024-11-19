@@ -12,7 +12,13 @@ namespace Hospital_Management_System.Services.DoctorServices
             _doctorRepository = doctorRepository;
         }
 
-        public async Task<IEnumerable<DoctorDTO>> GetDoctorByGetDoctorsBySpecializationAsync(string specialization)
+        public async Task<int> GetDoctorIdByUserIdAsync(int userId)
+        {
+            var doctorId = await _doctorRepository.GetDoctorIdByUserId(userId);
+            return doctorId;
+        }
+
+        public async Task<IEnumerable<DoctorDTO>> GetDoctorsBySpecializationAsync(string specialization)
         {
            var doctors = await _doctorRepository.GetDoctorsBySpecialization(specialization);
 

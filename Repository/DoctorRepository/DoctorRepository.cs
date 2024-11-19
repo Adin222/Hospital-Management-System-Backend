@@ -10,6 +10,16 @@ namespace Hospital_Management_System.Repository.DoctorRepository
         {
             _context = context;
         }
+
+        public async Task<int> GetDoctorIdByUserId(int userId)
+        {
+            var doctorId = await _context.Doctors
+                .Where(dc => dc.UserID == userId)
+                .Select(dc => dc.DoctorID)
+                .FirstOrDefaultAsync();
+            return doctorId;
+        }
+
         public async Task<IEnumerable<Doctor>> GetDoctorsBySpecialization(string specialization)
         {
            var department = await _context.Departments.AnyAsync(dp => dp.DepartmentName == specialization);

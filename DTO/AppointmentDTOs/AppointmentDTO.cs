@@ -7,6 +7,7 @@
         public required int ReceptionistId { get; set; }
         public required int PatientId { get; set; }
         public required string ReasonForVisit { get; set; }
+        public required string Status { get; set; }
         public DateTime? AppointmentDate { get; set; }
     }
 }

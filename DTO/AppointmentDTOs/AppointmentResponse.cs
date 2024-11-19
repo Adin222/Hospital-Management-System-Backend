@@ -7,6 +7,7 @@
         public required string ReceptionistName { get; set; }
         public required string PatientName { get; set; }
         public required string ReasonForVisit { get; set; }
+        public required string Status { get; set; }
         public DateTime? Reservation { get; set; }
     }
 }

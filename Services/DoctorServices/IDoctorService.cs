@@ -4,6 +4,7 @@ namespace Hospital_Management_System.Services.DoctorServices
 {
     public interface IDoctorService
     {
-        Task<IEnumerable<DoctorDTO>> GetDoctorByGetDoctorsBySpecializationAsync(string specialization);
+        Task<IEnumerable<DoctorDTO>> GetDoctorsBySpecializationAsync(string specialization);
+        Task<int> GetDoctorIdByUserIdAsync(int userId);
     }
 }

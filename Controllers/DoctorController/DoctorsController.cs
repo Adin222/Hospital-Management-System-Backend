@@ -18,8 +18,16 @@ namespace Hospital_Management_System.Controllers.DoctorController
         [Authorize(Roles = "ADMIN,RECEPTIONIST")]
         public async Task<IActionResult> GetAllDoctorsBySpecialization(string specialization)
         {
-            var doctors = await _doctorService.GetDoctorByGetDoctorsBySpecializationAsync(specialization);
+            var doctors = await _doctorService.GetDoctorsBySpecializationAsync(specialization);
             return Ok(doctors);
+        }
+
+        [HttpGet("doctorId/{userId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> GetDoctorId(int userId)
+        {
+            var doctorId = await _doctorService.GetDoctorIdByUserIdAsync(userId);
+            return Ok(doctorId);
         }
     }
 }
