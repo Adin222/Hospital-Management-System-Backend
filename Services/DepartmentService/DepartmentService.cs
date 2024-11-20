@@ -22,5 +22,16 @@ namespace Hospital_Management_System.Services.DepartmentService
             });
             return response;
         }
+
+        public async Task<DepartmentDTO> GetDepartmentAsync(int doctorId)
+        {
+            var department = await _departmentRepository.GetDepartmentById(doctorId);
+            var response = new DepartmentDTO
+            {
+                Id = department.DepartmentID,
+                DepartmentName = department.DepartmentName
+            };
+            return response;
+        }
     }
 }

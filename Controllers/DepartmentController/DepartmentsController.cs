@@ -22,5 +22,13 @@ namespace Hospital_Management_System.Controllers.DepartmentController
             var departments = await _departmentService.GetAllDepartmentsAsync();
             return Ok(departments);
         }
+
+        [HttpGet("department/{doctorId}")]
+        [Authorize]
+        public async Task<IActionResult> GetDepartment(int doctorId)
+        {
+            var response = await _departmentService.GetDepartmentAsync(doctorId);
+            return Ok(response);
+        }
     }
 }

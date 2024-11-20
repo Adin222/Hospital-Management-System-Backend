@@ -6,5 +6,6 @@ namespace Hospital_Management_System.Repository.DoctorRepository
     {
         Task<IEnumerable<Doctor>> GetDoctorsBySpecialization(string specialization);
         Task<int> GetDoctorIdByUserId(int  userId);
+        Task<Doctor> GetDoctorByDoctorId(int doctorId);
     }
 }

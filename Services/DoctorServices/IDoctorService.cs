@@ -6,5 +6,6 @@ namespace Hospital_Management_System.Services.DoctorServices
     {
         Task<IEnumerable<DoctorDTO>> GetDoctorsBySpecializationAsync(string specialization);
         Task<int> GetDoctorIdByUserIdAsync(int userId);
+        Task<DoctorDTO> GetDoctorAsync(int doctorId);
     }
 }

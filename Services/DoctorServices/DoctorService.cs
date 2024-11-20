@@ -12,6 +12,18 @@ namespace Hospital_Management_System.Services.DoctorServices
             _doctorRepository = doctorRepository;
         }
 
+        public async Task<DoctorDTO> GetDoctorAsync(int doctorId)
+        {
+           var doctor = await _doctorRepository.GetDoctorByDoctorId(doctorId);
+            var response = new DoctorDTO
+            {
+                Id = doctor.DoctorID,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+            };
+            return response;
+        }
+
         public async Task<int> GetDoctorIdByUserIdAsync(int userId)
         {
             var doctorId = await _doctorRepository.GetDoctorIdByUserId(userId);

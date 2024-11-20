@@ -33,7 +33,7 @@ namespace Hospital_Management_System.Controllers.PatientController
               return Ok(patients);
         }
         [HttpGet("patient/{id}")]
-        [Authorize(Roles = "ADMIN,RECEPTIONIST")]
+        [Authorize(Roles = "ADMIN,DOCTOR,RECEPTIONIST")]
         public async Task<IActionResult> GetPatient(int id)
         {
              var patient = await _patientService.GetPatientByIdAsync(id);
@@ -48,7 +48,7 @@ namespace Hospital_Management_System.Controllers.PatientController
               return Ok("Patient has been successfully deleted");
         }
         [HttpPut("patient/{id}")]
-        [Authorize(Roles = "ADMIN,RECEPTIONIST")]
+        [Authorize(Roles = "ADMIN,DOCTOR,RECEPTIONIST")]
         public async Task<IActionResult> UpdatePatient(int id, [FromBody] PatientUpdateDto body)
         {
             

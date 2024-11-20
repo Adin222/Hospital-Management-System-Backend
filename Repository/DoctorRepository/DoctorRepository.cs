@@ -11,6 +11,12 @@ namespace Hospital_Management_System.Repository.DoctorRepository
             _context = context;
         }
 
+        public async Task<Doctor> GetDoctorByDoctorId(int doctorId)
+        {
+            var doctor = await _context.Doctors.FindAsync(doctorId) ?? throw new KeyNotFoundException("Doctor doesn't exist");
+            return doctor;
+        }
+
         public async Task<int> GetDoctorIdByUserId(int userId)
         {
             var doctorId = await _context.Doctors

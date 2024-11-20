@@ -14,7 +14,7 @@ namespace Hospital_Management_System.Controllers.DoctorController
             _doctorService = doctorService;
         }
 
-        [HttpGet("doctor/{specialization}")]
+        [HttpGet("specialization/{specialization}")]
         [Authorize(Roles = "ADMIN,RECEPTIONIST")]
         public async Task<IActionResult> GetAllDoctorsBySpecialization(string specialization)
         {
@@ -22,12 +22,20 @@ namespace Hospital_Management_System.Controllers.DoctorController
             return Ok(doctors);
         }
 
-        [HttpGet("doctorId/{userId}")]
+        [HttpGet("user/{userId}")]
         [Authorize(Roles = "ADMIN,DOCTOR")]
         public async Task<IActionResult> GetDoctorId(int userId)
         {
             var doctorId = await _doctorService.GetDoctorIdByUserIdAsync(userId);
             return Ok(doctorId);
+        }
+
+        [HttpGet("doctor/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetDoctorById(int id)
+        {
+            var doctor = await _doctorService.GetDoctorAsync(id);
+            return Ok(doctor);
         }
     }
 }
