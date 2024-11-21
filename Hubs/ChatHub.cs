@@ -9,7 +9,7 @@ namespace Hospital_Management_System.Hubs
     [Authorize]
     public class ChatHub : Hub
     {
-        private static readonly ConcurrentDictionary<string, string> UserConnections = [];
+        private static readonly ConcurrentDictionary<string, string> UserConnections = new();
         private readonly IChatService _chatService;
         private readonly IMessageService _messageService;
 
