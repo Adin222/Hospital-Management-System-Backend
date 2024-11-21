@@ -118,10 +118,6 @@ namespace Hospital_Management_System.Services.AppointmentServices
             {
                 appointment.Status = req.Status;
             }
-            if (!string.IsNullOrEmpty(req.ReasonForVisit))
-            {
-                appointment.ReasonForVisit = req.ReasonForVisit;
-            }
             await _appointmentRepository.UpdateAppointment(appointment);
         }
 
