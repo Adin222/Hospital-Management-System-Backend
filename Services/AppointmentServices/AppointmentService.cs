@@ -118,6 +118,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
             {
                 appointment.Status = req.Status;
             }
+            appointment.UpdatedAt = DateTime.UtcNow;
             await _appointmentRepository.UpdateAppointment(appointment);
         }
 
