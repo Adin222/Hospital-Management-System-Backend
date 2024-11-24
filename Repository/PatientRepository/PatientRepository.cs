@@ -61,7 +61,7 @@ namespace Hospital_Management_System.Repository.PatientRepository
         public async Task<bool> PatientExistsAsync(string email)
         {
             var patient = await _context.Patients.AnyAsync(u => u.Email == email);
-            if (patient == true) throw new ApplicationException("Patient does");
+            if (patient == true) throw new ApplicationException("Patient with that email already exists");
             return false;
         }
 
