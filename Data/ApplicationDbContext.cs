@@ -69,6 +69,12 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(c => c.ChatId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<MedicalRecord>()
+            .HasOne(rc => rc.Appointment)
+            .WithMany(r => r.MedicalRecords)
+            .HasForeignKey(r => r.AppointmentID)
+            .OnDelete(DeleteBehavior.Restrict);
+
         base.OnModelCreating(modelBuilder);  
     }
 }

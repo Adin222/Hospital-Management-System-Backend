@@ -31,5 +31,6 @@ namespace Hospital_Management_System.Models
         [MaxLength(25)]
         public required string Status { get; set; }
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+        public ICollection<MedicalRecord> MedicalRecords { get; set; } = [];
     }
 }
