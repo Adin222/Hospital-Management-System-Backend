@@ -33,6 +33,7 @@ namespace Hospital_Management_System.Services.RecordServices
                 Diagnosis = req.Diagnosis,
                 Prescription = req.Prescription,
                 Notes = req.Notes,
+                Quantity = req.Quantity,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -106,6 +107,13 @@ namespace Hospital_Management_System.Services.RecordServices
                 record.Notes = req.Notes;
                 Edited = true;
             }
+
+            if (req.Quantity != 0)
+            {
+                record.Quantity = req.Quantity;
+                Edited = true;
+            }
+
             if (!String.IsNullOrEmpty(req.Diagnosis))
             {
                 record.Diagnosis = req.Diagnosis;

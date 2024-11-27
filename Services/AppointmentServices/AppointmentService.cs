@@ -35,6 +35,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
                 AppointmentDateTime = req.AppointmentDate,
                 ReasonForVisit = req.ReasonForVisit,
                 Status = req.Status,
+                Price = req.Price,
                 PatientJMBG = req.JMBG
             };
 

@@ -22,11 +22,10 @@ namespace Hospital_Management_System.Models
 
         [MaxLength(255)]
         public string Diagnosis { get; set; }
+        public int Quantity { get; set; }
 
         [MaxLength(1000)]
         public string Prescription { get; set; }
-
-        [MaxLength(1000)]
         public string Notes { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
