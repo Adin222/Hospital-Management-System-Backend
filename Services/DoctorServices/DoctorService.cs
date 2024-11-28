@@ -1,4 +1,5 @@
 ﻿using Hospital_Management_System.DTO.DoctorDTOs;
+using Hospital_Management_System.Mappers.DoctorMappers;
 using Hospital_Management_System.Repository.DoctorRepository;
 
 namespace Hospital_Management_System.Services.DoctorServices
@@ -15,13 +16,9 @@ namespace Hospital_Management_System.Services.DoctorServices
         public async Task<DoctorDTO> GetDoctorAsync(int doctorId)
         {
            var doctor = await _doctorRepository.GetDoctorByDoctorId(doctorId);
-            var response = new DoctorDTO
-            {
-                Id = doctor.DoctorID,
-                FirstName = doctor.FirstName,
-                LastName = doctor.LastName,
-            };
-            return response;
+           var response = doctor.ToDoctorDto();
+
+           return response;
         }
 
         public async Task<int> GetDoctorIdByUserIdAsync(int userId)
@@ -32,14 +29,10 @@ namespace Hospital_Management_System.Services.DoctorServices
 
         public async Task<IEnumerable<DoctorDTO>> GetDoctorsBySpecializationAsync(string specialization)
         {
-           var doctors = await _doctorRepository.GetDoctorsBySpecialization(specialization);
+            var doctors = await _doctorRepository.GetDoctorsBySpecialization(specialization);
 
-            var response = doctors.Select(doctor => new DoctorDTO
-            {
-                Id = doctor.DoctorID,
-                FirstName = doctor.FirstName,
-                LastName = doctor.LastName,
-            });
+            var response = doctors.Select(doctor => doctor.ToDoctorDto()).ToList();
+
             return response;
         }
     }

@@ -1,32 +1,50 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hospital_Management_System.DTO.UserDTOs;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_Management_System.Models
 {
     public class User
     {
+        public User() { }
+
+        public User(UserDto userDto, string hashedPassword, int roleId)
+        {
+            FirstName = userDto.FirstName;
+            LastName = userDto.LastName;
+            PasswordHash = hashedPassword;
+            Email = userDto.Email;
+            CreatedAt = DateTime.UtcNow;
+            EmploymentDate = userDto.EmploymentDate;
+            PhoneNumber = userDto.PhoneNumber;
+            Country = userDto.Country;
+            City = userDto.City;
+            RoleID = roleId;
+            DateOfBirth = userDto.DateOfBirth;
+        }
+
         [Key]
         public int UserID { get; set; }
 
         [MaxLength(25)]
-        public required string FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [MaxLength(25)]
-        public required string LastName { get; set; }
+        public string LastName { get; set; }
 
         [MaxLength(255)]
-        public required string Email { get; set; }
+        public string Email { get; set; }
 
         [MaxLength(1000)]
-        public required string PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
         [MaxLength(25)]
-        public required string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         [MaxLength(25)]
-        public required string DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         [MaxLength(25)]
-        public required string Country { get; set; }
+        public string Country { get; set; }
         [MaxLength(25)]
-        public required string City { get; set; }
+        public string City { get; set; }
         public DateTime EmploymentDate { get; set; }
         public Doctor Doctor { get; set; }
         public int RoleID { get; set; }

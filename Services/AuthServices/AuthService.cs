@@ -1,5 +1,6 @@
 ﻿using Hospital_Management_System.DTO.AuthDTOs;
 using Hospital_Management_System.Helpers;
+using Hospital_Management_System.Mappers.AuthMappers;
 using Hospital_Management_System.Repository.AuthRepository;
 
 namespace Hospital_Management_System.Services.AuthServices
@@ -21,15 +22,9 @@ namespace Hospital_Management_System.Services.AuthServices
         {
             var user = await _authRepository.GetUserByEmail(Email);
 
-            var res = new LoggedUserDto
-            {
-                Id = user.UserID,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                PasswordHash = user.PasswordHash,
-                Role = await _authRepository.GetRoleByID(user.RoleID)
-            };
+            var systemRole = await _authRepository.GetRoleByID(user.RoleID);
+
+            var res = user.ToLoggedUserDto(systemRole);
 
             var role = await _authRepository.GetRoleByID(user.RoleID);
 

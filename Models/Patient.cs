@@ -1,39 +1,56 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hospital_Management_System.DTO.PatientDTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Management_System.Models
 {
     public class Patient
     {
+        public Patient() { }
+
+        public Patient(PatientDto patient)
+        {
+            FirstName = patient.FirstName;
+            LastName = patient.LastName;
+            DateOfBirth = patient.DateOfBirth;
+            Address = patient.Address;
+            Email = patient.Email;
+            PhoneNumber = patient.PhoneNumber;
+            City = patient.City;
+            Country = patient.Country;
+            Education = patient.Education;
+            JMBG = patient.JMBG;
+            CreatedAt = DateTime.UtcNow;
+        }
         [Key]
         public int PatientID { get; set; }
 
         [MaxLength(25)]
-        public required string FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [MaxLength(25)]
-        public required string LastName { get; set; }
+        public string LastName { get; set; }
         [MaxLength(15)]
-        public required string DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
 
         [MaxLength(255)]
-        public required string Address { get; set; }
+        public string Address { get; set; }
 
         [MaxLength(25)]
-        public required string Email { get; set; }
+        public string Email { get; set; }
 
         [MaxLength(30)]
-        public required string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [MaxLength(30)]
-        public required string City { get; set; }
+        public string City { get; set; }
 
         [MaxLength(30)]
-        public required string Country { get; set; }
+        public string Country { get; set; }
 
         [MaxLength(30)]
-        public required string Education {  get; set; }
+        public string Education {  get; set; }
         [MaxLength(30)]
-        public required string JMBG { get; set; }
+        public string JMBG { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

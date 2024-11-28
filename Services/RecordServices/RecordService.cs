@@ -1,4 +1,5 @@
 ﻿using Hospital_Management_System.DTO.RecordDTOs;
+using Hospital_Management_System.Mappers.RecordMappers;
 using Hospital_Management_System.Models;
 using Hospital_Management_System.Repository.AppointmentRepository;
 using Hospital_Management_System.Repository.PatientRepository;
@@ -25,32 +26,12 @@ namespace Hospital_Management_System.Services.RecordServices
         {
             await IsDataValid(docId, patId, appId);
 
-            var record = new MedicalRecord
-            {
-                PatientID = patId,
-                DoctorID = docId,
-                AppointmentID = appId,
-                Diagnosis = req.Diagnosis,
-                Prescription = req.Prescription,
-                Notes = req.Notes,
-                Quantity = req.Quantity,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            };
-
-            var doctor = await _userRepository.GetDoctorNameByDoctorId(docId);
-            var patient = await _patientRepository.GetPatientNameById(patId);
-
+            var record = new MedicalRecord(req, patId, docId, appId);
 
             await _recordRepository.AddMedicalRecord(record);
 
-            var response = new RecordResponse
-            {
-                Id = record.RecordID,
-                DoctorName = doctor,
-                PatientName = patient,
-                AppointmentTime = DateTime.UtcNow
-            };
+            var response = record.ToRecordResponseDto();
+
             return response;
         }
         public async Task DeleteMedicalRecordAsync(int Id)
@@ -62,17 +43,8 @@ namespace Hospital_Management_System.Services.RecordServices
         {
             var record = await _recordRepository.GetMedicalRecordById(Id);
 
-            var doctor = await _userRepository.GetDoctorNameByDoctorId(record.DoctorID);
-            var patient = await _patientRepository.GetPatientNameById(record.PatientID);
+            var response = record.ToRecordResponseDto();
 
-
-            var response = new RecordResponse
-            {
-                Id = record.RecordID,
-                DoctorName = doctor,
-                PatientName = patient,
-                AppointmentTime = record.CreatedAt
-            };
             return response;
         }
 
@@ -80,16 +52,9 @@ namespace Hospital_Management_System.Services.RecordServices
         {
             var records = await _recordRepository.GetAllMedicalRecordsByDoctorId(doctorId);
 
-            var tasks = records.Select(async record => new RecordResponse
-            {
-                Id = record.RecordID,
-                DoctorName = await _userRepository.GetDoctorNameByDoctorId(record.DoctorID),
-                PatientName = await _patientRepository.GetPatientNameById(record.PatientID),
-                AppointmentTime = record.CreatedAt
-            }).ToList();
+            var response = records.Select(record => record.ToRecordResponseDto()).ToList();
 
-            var responses = await Task.WhenAll(tasks);
-            return responses;
+            return response;
         }
 
         public async Task UpdateMedicalRecordByIdAsync(RecordRequest req, int id)
@@ -149,16 +114,9 @@ namespace Hospital_Management_System.Services.RecordServices
         {
             var records = await _recordRepository.GetAllMedicalRecords();
 
-            var tasks = records.Select(async record => new RecordResponse
-            {
-                Id = record.RecordID,
-                DoctorName = await _userRepository.GetDoctorNameByDoctorId(record.DoctorID),
-                PatientName = await _patientRepository.GetPatientNameById(record.PatientID),
-                AppointmentTime = record.CreatedAt
-            }).ToList();
+            var response = records.Select(record => record.ToRecordResponseDto()).ToList();
 
-            var responses = await Task.WhenAll(tasks);
-            return responses;
+            return response;
         }
     }
 }

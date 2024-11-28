@@ -1,5 +1,5 @@
-﻿
-using Hospital_Management_System.DTO.ChatDTOs;
+﻿using Hospital_Management_System.DTO.ChatDTOs;
+using Hospital_Management_System.Mappers.ChatMappers;
 using Hospital_Management_System.Models;
 using Hospital_Management_System.Repository.ChatRepository;
 
@@ -16,11 +16,8 @@ namespace Hospital_Management_System.Services.ChatServices
         {
             if(!await _chatRepository.ChatExists(name, user))
             {
-                var chat = new Chat
-                {
-                    ChatName = name,
-                    UserId = int.Parse(user),
-                };
+                var chat = new Chat(name, user);
+
                 await _chatRepository.AddChat(chat);
             }
         }
@@ -40,12 +37,8 @@ namespace Hospital_Management_System.Services.ChatServices
         {
             var chats = await _chatRepository.GetAllChatsByUserId(Id);
 
-            var response = chats.Select(chat => new ChatResponse
-            {
-                Id = chat.ChatId,
-                ChatName = chat.ChatName,
-                UserId = chat.UserId
-            });
+            var response = chats.Select(chat => chat.ToChatDto()).ToList();
+
             return response;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Hospital_Management_System.DTO.MessageDTOs;
+using Hospital_Management_System.Mappers.MessageMappers;
 using Hospital_Management_System.Models;
 using Hospital_Management_System.Repository.ChatRepository;
 using Hospital_Management_System.Repository.MessageRepository;
@@ -17,28 +18,16 @@ namespace Hospital_Management_System.Services.MessageServices
         public async Task AddMessage(string message, string sender, string receiver, string name)
         {
             var chatId = await _chatRepository.GetChatIdByNameAndUserId(name, sender);
-            var mess = new Message
-            {
-                SenderId = sender,
-                ReceiverId = receiver,
-                MessageInformation = message,
-                MessageReceived = DateTime.UtcNow,
-                ChatId = chatId
-            };
+            var mess = new Message(sender, receiver, message, chatId);
+
             await _messageRepository.AddMessage(mess);
         }
         public async Task<IEnumerable<MessageResponse>> GetAllChatMessagesAsync(string chatName)
         {
             var messages = await _messageRepository.GetMessagesByChatName(chatName);
 
-            var response = messages.Select(message => new MessageResponse
-            {
-                MessageId = message.MessageId,
-                SenderId = message.SenderId,
-                MessageReceived = message.MessageReceived,
-                ReceiverId = message.ReceiverId,
-                Message = message.MessageInformation
-            });
+            var response = messages.Select(message => message.ToMessageResponseDto()).ToList();
+
             return response;
         }
     }

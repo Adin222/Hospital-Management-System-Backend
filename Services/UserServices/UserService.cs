@@ -2,6 +2,7 @@
 using Hospital_Management_System.Helpers;
 using Hospital_Management_System.Repository.UserRepository;
 using Hospital_Management_System.DTO.UserDTOs;
+using Hospital_Management_System.Mappers.UserMappers;
 
 namespace Hospital_Management_System.Services.UserServices
 {
@@ -16,7 +17,7 @@ namespace Hospital_Management_System.Services.UserServices
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<UserResponseDto> CreateUserAsync(UserDto userDto)
+        public async Task<UserDetailsResponse> CreateUserAsync(UserDto userDto)
         {
             if (await _userRepository.UserExistsAsync(userDto.Email))
             {
@@ -26,23 +27,13 @@ namespace Hospital_Management_System.Services.UserServices
             if (userDto.Role == "DOCTOR" && string.IsNullOrEmpty(userDto.DepartmentName)) 
             {
                 throw new InvalidOperationException("Doctor must be assigned to the department");
-            } 
+            }
 
             var roleId = await _userRepository.GetRoleIdByNameAsync(userDto.Role);
-            var user = new User
-            {
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                PasswordHash = _passwordHasher.HashPassword(userDto.Password),
-                Email = userDto.Email,
-                CreatedAt = DateTime.UtcNow,
-                EmploymentDate = userDto.EmploymentDate,
-                PhoneNumber = userDto.PhoneNumber,
-                Country = userDto.Country,
-                City = userDto.City,
-                RoleID = roleId,
-                DateOfBirth = userDto.DateOfBirth
-            };
+
+            var hashedPassword = _passwordHasher.HashPassword(userDto.Password);
+
+            var user = new User(userDto, hashedPassword, roleId);
 
             await _userRepository.AddUserAsync(user);
 
@@ -66,39 +57,14 @@ namespace Hospital_Management_System.Services.UserServices
                 await _userRepository.AddDoctorDepartment(Dep);
             }
 
-            var response = new UserResponseDto
-            {
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Email = userDto.Email,
-                CreatedAt = DateTime.UtcNow,
-                EmploymentDate = userDto.EmploymentDate,
-                PhoneNumber = userDto.PhoneNumber,
-                Country = userDto.Country,
-                City = userDto.City,
-                Role = userDto.Role,
-                DateOfBirth = userDto.DateOfBirth
-            };
+            var response = userDto.ToUserDetailDto();
 
             return response;
         }
-        public async Task<IEnumerable<UserResponse>> GetUsersAsync()
+        public async Task<IEnumerable<UserFullResponse>> GetUsersAsync()
         {
             var users = await _userRepository.GetAllUsersAsync();
-            var userDtos = users.Select(user => new UserResponse
-            {
-                UserId = user.UserID,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Role = user.Role.role,
-                PhoneNumber = user.PhoneNumber,
-                DateOfBirth = user.DateOfBirth,
-                Country = user.Country,
-                City = user.City,
-                EmploymentDate = user.EmploymentDate,
-                CreatedAt = user.CreatedAt
-            }).ToList();
+            var userDtos = users.Select(user => user.ToUserFullDto()).ToList();
 
             return userDtos;
         }
@@ -151,7 +117,7 @@ namespace Hospital_Management_System.Services.UserServices
 
             await _userRepository.DeleteUserAsync(user);
         }
-        public async Task<UserResponse> GetUserById(int id)
+        public async Task<UserFullResponse> GetUserById(int id)
         {
             var user = await _userRepository.GetUserByID(id);
             var department = "NONE";
@@ -162,21 +128,8 @@ namespace Hospital_Management_System.Services.UserServices
                 department = await _userRepository.GetDepartmentByDoctorId(doctor.UserID);   
             }
 
-            var response = new UserResponse
-            {
-                UserId = user.UserID,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Role = user.Role.role,
-                PhoneNumber = user.PhoneNumber,
-                DateOfBirth = user.DateOfBirth,
-                Country = user.Country,
-                City = user.City,
-                DepartmentName = department,
-                EmploymentDate = user.EmploymentDate,
-                CreatedAt = user.CreatedAt
-            };
+            var response = user.ToUserFullDto(department);
+
             return response;
         }
     }

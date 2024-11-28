@@ -3,8 +3,14 @@
     public class RecordResponse
     {
         public required int Id {  get; set; }
-        public required string DoctorName { get; set; }
-        public required string PatientName { get; set; }
-        public DateTime? AppointmentTime { get; set; }
+        public required int AppointmentId { get; set; }
+        public required int DoctorId { get; set; }
+        public required int PatientId { get; set; }
+        public required int Quantity { get; set; }
+        public required int Duration { get; set; }
+        public required string Diagnosis { get; set; }
+        public required string Notes { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

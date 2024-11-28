@@ -5,6 +5,14 @@ namespace Hospital_Management_System.Models
 {
     public class Chat
     {
+        public Chat() { }
+
+        public Chat(string name, string user)
+        {
+            ChatName = name;
+            UserId = int.Parse(user);
+        }
+
         [Key]
         public int ChatId { get; set; }
         [MaxLength(255)]

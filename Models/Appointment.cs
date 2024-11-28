@@ -1,11 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Hospital_Management_System.DTO.AppointmentDTOs;
 
 
 namespace Hospital_Management_System.Models
 {
     public class Appointment
     {
+        public Appointment() { }
+
+        public Appointment(AppointmentRequest req, int doctorId, int patientId, int receptionistId)
+        {
+            DoctorID = doctorId;
+            ReceptionistID = receptionistId;
+            PatientID = patientId;
+            AppointmentDateTime = req.AppointmentDate;
+            ReasonForVisit = req.ReasonForVisit;
+            Status = req.Status;
+            Price = req.Price;
+            PatientJMBG = req.JMBG;
+        }
+
         [Key]
         public int AppointmentID { get; set; }
         public int PatientID { get; set; }
@@ -24,13 +39,13 @@ namespace Hospital_Management_System.Models
         public DateTime? AppointmentDateTime { get; set; }
 
         [MaxLength(400)]
-        public required string ReasonForVisit { get; set; }
+        public string ReasonForVisit { get; set; }
         [MaxLength(14)]
-        public required string PatientJMBG { get; set; }
+        public string PatientJMBG { get; set; }
 
         [MaxLength(25)]
-        public required string Status { get; set; }
-        public required double Price { get; set; }
+        public string Status { get; set; }
+        public double Price { get; set; }
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<MedicalRecord> MedicalRecords { get; set; } = [];
     }
