@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hospital_Managment_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241129193053_VaccineMigration")]
+    partial class VaccineMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,25 +380,6 @@ namespace Hospital_Managment_System.Migrations
                     b.ToTable("Patients");
                 });
 
-            modelBuilder.Entity("Hospital_Management_System.Models.PatientVaccine", b =>
-                {
-                    b.Property<int>("PatientId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VaccineId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("PatientId", "VaccineId");
-
-                    b.HasIndex("VaccineId");
-
-                    b.ToTable("PatientVaccines");
-                });
-
             modelBuilder.Entity("Hospital_Management_System.Models.Role", b =>
                 {
                     b.Property<int>("RoleID")
@@ -525,6 +509,21 @@ namespace Hospital_Managment_System.Migrations
                     b.ToTable("MedicationPatient");
                 });
 
+            modelBuilder.Entity("PatientVaccine", b =>
+                {
+                    b.Property<int>("PatientVaccinesPatientID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("VaccinesVaccineId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PatientVaccinesPatientID", "VaccinesVaccineId");
+
+                    b.HasIndex("VaccinesVaccineId");
+
+                    b.ToTable("PatientVaccine");
+                });
+
             modelBuilder.Entity("AllergyPatient", b =>
                 {
                     b.HasOne("Hospital_Management_System.Models.Allergy", null)
@@ -646,25 +645,6 @@ namespace Hospital_Managment_System.Migrations
                     b.Navigation("Chat");
                 });
 
-            modelBuilder.Entity("Hospital_Management_System.Models.PatientVaccine", b =>
-                {
-                    b.HasOne("Hospital_Management_System.Models.Patient", "Patient")
-                        .WithMany("PatientVaccines")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Hospital_Management_System.Models.Vaccine", "Vaccine")
-                        .WithMany("PatientVaccines")
-                        .HasForeignKey("VaccineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Vaccine");
-                });
-
             modelBuilder.Entity("Hospital_Management_System.Models.User", b =>
                 {
                     b.HasOne("Hospital_Management_System.Models.Role", "Role")
@@ -706,6 +686,21 @@ namespace Hospital_Managment_System.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PatientVaccine", b =>
+                {
+                    b.HasOne("Hospital_Management_System.Models.Patient", null)
+                        .WithMany()
+                        .HasForeignKey("PatientVaccinesPatientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hospital_Management_System.Models.Vaccine", null)
+                        .WithMany()
+                        .HasForeignKey("VaccinesVaccineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Hospital_Management_System.Models.Appointment", b =>
                 {
                     b.Navigation("MedicalRecords");
@@ -735,8 +730,6 @@ namespace Hospital_Managment_System.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("MedicalRecords");
-
-                    b.Navigation("PatientVaccines");
                 });
 
             modelBuilder.Entity("Hospital_Management_System.Models.Role", b =>
@@ -750,11 +743,6 @@ namespace Hospital_Managment_System.Migrations
 
                     b.Navigation("Doctor")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Hospital_Management_System.Models.Vaccine", b =>
-                {
-                    b.Navigation("PatientVaccines");
                 });
 #pragma warning restore 612, 618
         }

@@ -56,5 +56,9 @@ namespace Hospital_Management_System.Models
 
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<MedicalRecord> MedicalRecords { get; set; }
+        public ICollection<Medication> Medications { get; set; }
+        public ICollection<Allergy> Allergies { get; set; }
+        public ICollection<Illness> Illnesses { get; set; }
+        public ICollection<PatientVaccine> PatientVaccines { get; set; }
     }
 }

@@ -24,6 +24,8 @@ using Hospital_Management_System.Services.DoctorServices;
 using Hospital_Management_System.Repository.DoctorRepository;
 using Hospital_Management_System.Services.DepartmentService;
 using Hospital_Management_System.Repository.DepartmentRepository;
+using Hospital_Management_System.Repository.VaccineRepository;
+using Hospital_Management_System.Services.VaccineServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,6 +92,7 @@ builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IVaccineService, VaccineService>();
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -101,6 +104,7 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IVaccineRepository, VaccineRepository>();
 
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

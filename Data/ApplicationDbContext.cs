@@ -18,6 +18,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<Doctor_Department> DoctorDepartments { get; set; }
     public DbSet<Chat> Chats { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<Medication> Medications { get; set; }
+    public DbSet<Illness> Illnesses { get; set; }
+    public DbSet<Allergy> Allergies { get; set; }
+    public DbSet<Vaccine> Vaccines { get; set; }
+    public DbSet<PatientVaccine> PatientVaccines { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -74,6 +79,19 @@ public class ApplicationDbContext : DbContext
             .WithMany(r => r.MedicalRecords)
             .HasForeignKey(r => r.AppointmentID)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<PatientVaccine>()
+            .HasKey(pv => new { pv.PatientId, pv.VaccineId });
+
+        modelBuilder.Entity<PatientVaccine>()
+            .HasOne(p => p.Patient)
+            .WithMany(m => m.PatientVaccines)
+            .HasForeignKey(pv => pv.PatientId);
+
+        modelBuilder.Entity<PatientVaccine>()
+            .HasOne(v => v.Vaccine)
+            .WithMany(m => m.PatientVaccines)
+            .HasForeignKey(fk => fk.VaccineId);
 
         base.OnModelCreating(modelBuilder);  
     }
