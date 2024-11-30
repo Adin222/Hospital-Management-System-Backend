@@ -1,4 +1,5 @@
 ﻿using Hospital_Management_System.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hospital_Management_System.Repository.PatientRepository
 {
@@ -13,5 +14,6 @@ namespace Hospital_Management_System.Repository.PatientRepository
         Task<string> GetPatientNameById(int id);
         Task<Patient> PatientExists(int id);
         Task<Patient> GetPatientBySSN(string ssn);
+        Task<bool> PatientExistsAsync(int patientId);
     }
 }

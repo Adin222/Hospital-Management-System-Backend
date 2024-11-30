@@ -23,5 +23,15 @@ namespace Hospital_Management_System.Repository.VaccineRepository
             var vaccines = await _context.Vaccines.ToListAsync();
             return vaccines;
         }
+
+        public async Task<int> GetNumberOfRows()
+        {
+            return await _context.Vaccines.CountAsync();
+        }
+
+        public async Task<bool> VaccineExistsAsync(int vaccineId)
+        {
+            return await _context.Vaccines.AnyAsync(vaccine => vaccine.VaccineId == vaccineId);
+        }
     }
 }

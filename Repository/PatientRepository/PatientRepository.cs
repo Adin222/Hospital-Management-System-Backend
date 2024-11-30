@@ -65,6 +65,11 @@ namespace Hospital_Management_System.Repository.PatientRepository
             return false;
         }
 
+        public async Task<bool> PatientExistsAsync(int patientId)
+        {
+            return await _context.Patients.AnyAsync(p => p.PatientID == patientId);
+        }
+
         public async Task UpdatePatient(Patient patient)
         {
             _context.Patients.Update(patient);

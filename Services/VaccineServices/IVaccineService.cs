@@ -4,7 +4,7 @@ namespace Hospital_Management_System.Services.VaccineServices
 {
     public interface IVaccineService
     {
-        public Task CreateVaccine(VaccineRequest request);
-        public Task<ICollection<VaccineResponse>> GetAllVaccines();
+        Task CreateVaccine(VaccineRequest request);
+        Task<ICollection<VaccineResponse>> GetAllVaccines();
     }
 }

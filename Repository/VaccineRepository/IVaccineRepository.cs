@@ -4,7 +4,9 @@ namespace Hospital_Management_System.Repository.VaccineRepository
 {
     public interface IVaccineRepository
     {
-        public Task<ICollection<Vaccine>> GetAllVaccines();
-        public Task AddVaccine(Vaccine vaccine);
+        Task<ICollection<Vaccine>> GetAllVaccines();
+        Task AddVaccine(Vaccine vaccine);
+        Task<bool> VaccineExistsAsync(int vaccineId);
+        Task<int> GetNumberOfRows();
     }
 }
