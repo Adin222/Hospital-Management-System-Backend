@@ -1,4 +1,5 @@
-﻿using Hospital_Management_System.DTO.PatientDTOs;
+﻿using Hospital_Management_System.DTO.IllnessDTOs;
+using Hospital_Management_System.DTO.PatientDTOs;
 
 namespace Hospital_Management_System.Services.PatientServices
 {
@@ -10,5 +11,6 @@ namespace Hospital_Management_System.Services.PatientServices
         Task DeletePatientByIdAsync(int id);
         Task UpdatePatientByIdAsync(int id, PatientUpdateDto patientDto);
         Task<PatientDto> GetPatientBySSNAsync(string ssn);
+        Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId);
     }
 }

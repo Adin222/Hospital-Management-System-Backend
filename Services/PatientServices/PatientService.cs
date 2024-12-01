@@ -1,17 +1,21 @@
-﻿using Hospital_Management_System.DTO.PatientDTOs;
+﻿using Hospital_Management_System.DTO.IllnessDTOs;
+using Hospital_Management_System.DTO.PatientDTOs;
 using Hospital_Management_System.Mappers.PatientMappers;
 using Hospital_Management_System.Models;
+using Hospital_Management_System.Repository.IllnessRepository;
 using Hospital_Management_System.Repository.PatientRepository;
 
 namespace Hospital_Management_System.Services.PatientServices
 {
     public class PatientService : IPatientService
     {
-        private IPatientRepository _patientRepository;
+        private readonly IPatientRepository _patientRepository;
+        private readonly IIllnessRepository _illnessRepository;
 
-        public PatientService(IPatientRepository patientRepository)
+        public PatientService(IPatientRepository patientRepository, IIllnessRepository illnessRepository)
         {
             _patientRepository = patientRepository;
+            _illnessRepository = illnessRepository;
         }
 
         public async Task<PatientDto> CreatePatientAsync(PatientDto patient)
@@ -59,6 +63,18 @@ namespace Hospital_Management_System.Services.PatientServices
 
             return response;
         }
+
+        public async Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId)
+        {
+            var patient = await _patientRepository.GetPatientIncludesIllness(patientId);
+
+            foreach (var req in requests)
+            {
+                var illness = await _illnessRepository.GetIllnessById(req.IllnessId);
+                await _illnessRepository.ConnectIllness(patient, illness);
+            }
+        }
+
 
         public async Task UpdatePatientByIdAsync(int id, PatientUpdateDto patientDto)
         {

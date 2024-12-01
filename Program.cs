@@ -28,6 +28,8 @@ using Hospital_Management_System.Repository.VaccineRepository;
 using Hospital_Management_System.Services.VaccineServices;
 using Hospital_Management_System.Repository.PatientVaccineRepository;
 using Hospital_Management_System.Services.PatientVaccineServices;
+using Hospital_Management_System.Services.IllnessServices;
+using Hospital_Management_System.Repository.IllnessRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,6 +98,7 @@ builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IVaccineService, VaccineService>();
 builder.Services.AddScoped<IPatientVaccineService, PatientVaccineService>();
+builder.Services.AddScoped<IIllnessService, IllnessService>();
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -109,7 +112,7 @@ builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IVaccineRepository, VaccineRepository>();
 builder.Services.AddScoped<IPatientVaccineRepository, PatientVaccineRepository>();
-
+builder.Services.AddScoped<IIllnessRepository, IllnessRepository>();
 
 
 
