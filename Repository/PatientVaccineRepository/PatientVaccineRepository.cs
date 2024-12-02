@@ -25,5 +25,12 @@ namespace Hospital_Management_System.Repository.PatientVaccineRepository
                 .ToListAsync();
             return vaccinations;
         }
+
+        public async Task<bool> PatientVaccineExists(int patientId)
+        {
+            var exists = await _context.PatientVaccines.AnyAsync(p => p.PatientId == patientId);
+
+            return exists;
+        }
     }
 }

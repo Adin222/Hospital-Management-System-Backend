@@ -1,4 +1,5 @@
 ﻿using Hospital_Management_System.DTO.IllnessDTOs;
+using Hospital_Management_System.DTO.MedicationDTOs;
 using Hospital_Management_System.DTO.PatientDTOs;
 using Hospital_Management_System.Services.PatientServices;
 using Microsoft.AspNetCore.Authorization;
@@ -71,6 +72,14 @@ namespace Hospital_Management_System.Controllers.PatientController
         {
             await _patientService.RegisterPatientChronicIllness(requests, patientId);
             return Ok("Chronic illnesses successfully connected with patient");
+        }
+
+        [HttpPost("medication/{patientId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> RegisterPatientMedication([FromBody] IEnumerable<MedicationRequest> requests, int patientId)
+        {
+            await _patientService.RegisterPatientMedication(requests, patientId);
+            return Ok("Medication successfully connected with patient");
         }
     }
 }

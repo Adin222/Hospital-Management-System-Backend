@@ -2,7 +2,7 @@
 {
     public class IllnessRequest
     {
-        public string IllnessName { get; set; }
+        public string IllnessName { get; set; } = string.Empty;
         public int IllnessId { get; set; }
     }
 }

@@ -28,8 +28,17 @@ namespace Hospital_Management_System.Controllers.VaccinationsController
         [Authorize]
         public async Task<IActionResult> CreatePatientVaccinations([FromBody] IEnumerable<PatientVaccineRequest> vaccinations, int patientId)
         {
-            await _patientVaccineService.CreatePatientVaccinations(vaccinations, patientId);
-            return Ok("Vaccinations successfully saved");
+            var exists = await _patientVaccineService.PatientExistsAsync(patientId);
+
+            if (!exists)
+            {
+                await _patientVaccineService.CreatePatientVaccinations(vaccinations, patientId);
+                return Ok("Vaccinations successfully saved");
+            }
+            else
+            {
+                return Conflict("Patient already has vaccination information.");
+            }
         }
     }
 }

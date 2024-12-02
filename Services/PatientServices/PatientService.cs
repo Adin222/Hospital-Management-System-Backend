@@ -1,8 +1,10 @@
 ﻿using Hospital_Management_System.DTO.IllnessDTOs;
+using Hospital_Management_System.DTO.MedicationDTOs;
 using Hospital_Management_System.DTO.PatientDTOs;
 using Hospital_Management_System.Mappers.PatientMappers;
 using Hospital_Management_System.Models;
 using Hospital_Management_System.Repository.IllnessRepository;
+using Hospital_Management_System.Repository.MedicationRepository;
 using Hospital_Management_System.Repository.PatientRepository;
 
 namespace Hospital_Management_System.Services.PatientServices
@@ -11,11 +13,13 @@ namespace Hospital_Management_System.Services.PatientServices
     {
         private readonly IPatientRepository _patientRepository;
         private readonly IIllnessRepository _illnessRepository;
+        private readonly IMedicationRepository _medicationRepository;
 
-        public PatientService(IPatientRepository patientRepository, IIllnessRepository illnessRepository)
+        public PatientService(IPatientRepository patientRepository, IIllnessRepository illnessRepository, IMedicationRepository medicationRepository)
         {
             _patientRepository = patientRepository;
             _illnessRepository = illnessRepository;
+            _medicationRepository = medicationRepository;
         }
 
         public async Task<PatientDto> CreatePatientAsync(PatientDto patient)
@@ -75,6 +79,16 @@ namespace Hospital_Management_System.Services.PatientServices
             }
         }
 
+        public async Task RegisterPatientMedication(IEnumerable<MedicationRequest> requests, int patientId)
+        {
+            var patient = await _patientRepository.GetPatientIncludesMedication(patientId);
+
+            foreach(var req in requests)
+            {
+                var medication = await _medicationRepository.GetMedicationById(req.MedicationId);
+                await _medicationRepository.ConnectMedicationAndPatient(patient, medication);
+            }
+        }
 
         public async Task UpdatePatientByIdAsync(int id, PatientUpdateDto patientDto)
         {

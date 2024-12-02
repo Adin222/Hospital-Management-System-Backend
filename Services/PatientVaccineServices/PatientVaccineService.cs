@@ -59,5 +59,11 @@ namespace Hospital_Management_System.Services.PatientVaccineServices
             var response = patientVaccines.Select(patientVaccine => patientVaccine.ToPatientVaccineDto());
             return response;
         }
+
+        public Task<bool> PatientExistsAsync(int patientId)
+        {
+            var exists = _patientVaccineRepository.PatientVaccineExists(patientId);
+            return exists;
+        }
     }
 }
