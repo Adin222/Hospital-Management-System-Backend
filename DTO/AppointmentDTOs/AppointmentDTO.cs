@@ -8,6 +8,9 @@
         public required int PatientId { get; set; }
         public required string ReasonForVisit { get; set; }
         public required string Status { get; set; }
+        public required string SSN { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
         public DateTime? AppointmentDate { get; set; }
     }
 }

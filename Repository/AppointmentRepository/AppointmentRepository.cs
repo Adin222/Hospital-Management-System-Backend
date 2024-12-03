@@ -51,7 +51,7 @@ namespace Hospital_Management_System.Repository.AppointmentRepository
 
         public async Task<IEnumerable<Appointment>> GetAppointmentsByDoctorId(int doctorId)
         {
-            var appointments = await _context.Appointments.Where(ap => ap.DoctorID == doctorId).ToArrayAsync();
+            var appointments = await _context.Appointments.Include(p => p.Patient).Where(ap => ap.DoctorID == doctorId && ap.Status != "Canceled").ToArrayAsync();
             return appointments;
         }
 
