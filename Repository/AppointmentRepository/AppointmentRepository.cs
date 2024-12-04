@@ -30,7 +30,7 @@ namespace Hospital_Management_System.Repository.AppointmentRepository
 
         public async Task<IEnumerable<Appointment>> GetAllAppointments()
         {
-            var apps = await _context.Appointments.ToListAsync();
+            var apps = await _context.Appointments.Include(p => p.Patient).ToListAsync();
             return apps;
         }
 
