@@ -43,6 +43,15 @@ namespace Hospital_Management_System.Repository.PatientRepository
             return patient;
         }
 
+        public async Task<Patient> GetPatientIncludesAllergy(int patientId)
+        {
+            var patient = await _context.Patients
+                 .Include(allergy => allergy.Allergies)
+                 .FirstOrDefaultAsync(p => p.PatientID == patientId) ?? throw new KeyNotFoundException("Patient doesn't exist");
+
+            return patient;
+        }
+
         public async Task<Patient> GetPatientIncludesIllness(int patientId)
         {
             var patient = await _context.Patients

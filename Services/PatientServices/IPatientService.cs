@@ -1,4 +1,5 @@
-﻿using Hospital_Management_System.DTO.IllnessDTOs;
+﻿using Hospital_Management_System.DTO.AllergyDTOs;
+using Hospital_Management_System.DTO.IllnessDTOs;
 using Hospital_Management_System.DTO.MedicationDTOs;
 using Hospital_Management_System.DTO.PatientDTOs;
 
@@ -14,5 +15,6 @@ namespace Hospital_Management_System.Services.PatientServices
         Task<PatientDto> GetPatientBySSNAsync(string ssn);
         Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId);
         Task RegisterPatientMedication(IEnumerable<MedicationRequest> requests, int patientId);
+        Task RegisterPatientAllergy(IEnumerable<AllergyRequest> requests, int patientId);
     }
 }

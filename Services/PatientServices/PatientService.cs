@@ -1,8 +1,10 @@
-﻿using Hospital_Management_System.DTO.IllnessDTOs;
+﻿using Hospital_Management_System.DTO.AllergyDTOs;
+using Hospital_Management_System.DTO.IllnessDTOs;
 using Hospital_Management_System.DTO.MedicationDTOs;
 using Hospital_Management_System.DTO.PatientDTOs;
 using Hospital_Management_System.Mappers.PatientMappers;
 using Hospital_Management_System.Models;
+using Hospital_Management_System.Repository.AllergyRepository;
 using Hospital_Management_System.Repository.IllnessRepository;
 using Hospital_Management_System.Repository.MedicationRepository;
 using Hospital_Management_System.Repository.PatientRepository;
@@ -13,13 +15,15 @@ namespace Hospital_Management_System.Services.PatientServices
     {
         private readonly IPatientRepository _patientRepository;
         private readonly IIllnessRepository _illnessRepository;
+        private readonly IAllergyRepository _allergyRepository;
         private readonly IMedicationRepository _medicationRepository;
 
-        public PatientService(IPatientRepository patientRepository, IIllnessRepository illnessRepository, IMedicationRepository medicationRepository)
+        public PatientService(IPatientRepository patientRepository, IIllnessRepository illnessRepository, IMedicationRepository medicationRepository, IAllergyRepository allergyRepository)
         {
             _patientRepository = patientRepository;
             _illnessRepository = illnessRepository;
             _medicationRepository = medicationRepository;
+            _allergyRepository = allergyRepository;
         }
 
         public async Task<PatientDto> CreatePatientAsync(PatientDto patient)
@@ -66,6 +70,17 @@ namespace Hospital_Management_System.Services.PatientServices
             var response = patient.ToPatientDto();
 
             return response;
+        }
+
+        public async Task RegisterPatientAllergy(IEnumerable<AllergyRequest> requests, int patientId)
+        {
+            var patient = await _patientRepository.GetPatientIncludesAllergy(patientId);
+
+            foreach(var request in requests)
+            {
+                var allergy = await _allergyRepository.GetAllergyById(request.AllergyId);
+                await _allergyRepository.ConnectAllergy(patient, allergy);
+            }
         }
 
         public async Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId)

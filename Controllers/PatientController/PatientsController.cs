@@ -1,4 +1,5 @@
-﻿using Hospital_Management_System.DTO.IllnessDTOs;
+﻿using Hospital_Management_System.DTO.AllergyDTOs;
+using Hospital_Management_System.DTO.IllnessDTOs;
 using Hospital_Management_System.DTO.MedicationDTOs;
 using Hospital_Management_System.DTO.PatientDTOs;
 using Hospital_Management_System.Services.PatientServices;
@@ -80,6 +81,14 @@ namespace Hospital_Management_System.Controllers.PatientController
         {
             await _patientService.RegisterPatientMedication(requests, patientId);
             return Ok("Medication successfully connected with patient");
+        }
+
+        [HttpPost("allergy/{patientId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> RegisterPatientAllergy([FromBody] IEnumerable<AllergyRequest> requests, int patientId)
+        {
+            await _patientService.RegisterPatientAllergy(requests, patientId);
+            return Ok("Allergy successfully connected with patient");
         }
     }
 }

@@ -17,5 +17,6 @@ namespace Hospital_Management_System.Repository.PatientRepository
         Task<bool> PatientExistsAsync(int patientId);
         Task<Patient> GetPatientIncludesIllness(int patientId);
         Task<Patient> GetPatientIncludesMedication(int patientId);
+        Task<Patient> GetPatientIncludesAllergy(int patientId);
     }
 }
