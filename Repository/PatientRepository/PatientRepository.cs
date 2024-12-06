@@ -78,6 +78,14 @@ namespace Hospital_Management_System.Repository.PatientRepository
             return name;
         }
 
+        public async Task<bool> PatientAllergyExists(int patientId)
+        {
+            var patient = await _context.Patients
+                .AnyAsync(p => p.PatientID == patientId && p.Allergies.Any());
+
+            return patient;
+        }
+
         public async Task<Patient> PatientExists(int id)
         {
             var patient = await _context.Patients.FindAsync(id) ?? throw new KeyNotFoundException("Patient doesn't exist");
@@ -94,6 +102,30 @@ namespace Hospital_Management_System.Repository.PatientRepository
         public async Task<bool> PatientExistsAsync(int patientId)
         {
             return await _context.Patients.AnyAsync(p => p.PatientID == patientId);
+        }
+
+        public async Task<bool> PatientIllnessExists(int patientId)
+        {
+           var patient = await _context.Patients
+                .AnyAsync(p =>p.PatientID == patientId && p.Illnesses.Any());
+
+            return patient;
+        }
+
+        public async Task<bool> PatientMedicationExists(int patientId)
+        {
+            var patient = await _context.Patients
+                 .AnyAsync(p => p.PatientID == patientId && p.Medications.Any());
+
+            return patient;
+        }
+
+        public async Task<bool> PatientVaccinationExists(int patientId)
+        {
+            var patient = await _context.Patients
+                   .AnyAsync(p => p.PatientID == patientId && p.PatientVaccines.Any());
+
+            return patient;
         }
 
         public async Task UpdatePatient(Patient patient)

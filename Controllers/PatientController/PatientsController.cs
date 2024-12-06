@@ -90,5 +90,42 @@ namespace Hospital_Management_System.Controllers.PatientController
             await _patientService.RegisterPatientAllergy(requests, patientId);
             return Ok("Allergy successfully connected with patient");
         }
+
+        [HttpGet("vaccination/{patientId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> PatientVaccinationExists(int patientId)
+        {
+            var patient = await _patientService.PatientVaccinationExists(patientId);
+
+            return Ok(patient);
+        }
+
+        [HttpGet("allergy/{patientId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> PatientAllergyExists(int patientId)
+        {
+            var patient = await _patientService.PatientAllergyExists(patientId);
+
+            return Ok(patient);
+        }
+
+        [HttpGet("illness/{patientId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> PatientIllnessExists(int patientId)
+        {
+            var patient = await _patientService.PatientIllnessExists(patientId);
+
+            return Ok(patient);
+        }
+
+        [HttpGet("medication/{patientId}")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<IActionResult> PatientMedicationExists(int patientId)
+        {
+            var patient = await _patientService.PatientMedicationExists(patientId);
+
+            return Ok(patient);
+        }
+
     }
 }

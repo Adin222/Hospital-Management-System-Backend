@@ -72,36 +72,90 @@ namespace Hospital_Management_System.Services.PatientServices
             return response;
         }
 
+        public async Task<bool> PatientAllergyExists(int patientId)
+        {
+            var patient = await _patientRepository.PatientAllergyExists(patientId);
+            return patient;
+        }
+
+        public async Task<bool> PatientIllnessExists(int patientId)
+        {
+            var patient = await _patientRepository.PatientIllnessExists(patientId);
+
+            return patient;
+        }
+
+        public async Task<bool> PatientMedicationExists(int patientId)
+        {
+            var patient = await _patientRepository.PatientMedicationExists(patientId);
+
+            return patient;
+        }
+
+        public async Task<bool> PatientVaccinationExists(int patientId)
+        {
+            var patient = await _patientRepository.PatientVaccinationExists(patientId);
+
+            return patient;
+        }
+
         public async Task RegisterPatientAllergy(IEnumerable<AllergyRequest> requests, int patientId)
         {
-            var patient = await _patientRepository.GetPatientIncludesAllergy(patientId);
+            var exists = await _patientRepository.PatientAllergyExists(patientId);
 
-            foreach(var request in requests)
+            if (!exists)
             {
-                var allergy = await _allergyRepository.GetAllergyById(request.AllergyId);
-                await _allergyRepository.ConnectAllergy(patient, allergy);
+                var patient = await _patientRepository.GetPatientIncludesAllergy(patientId);
+
+                foreach (var request in requests)
+                {
+                    var allergy = await _allergyRepository.GetAllergyById(request.AllergyId);
+                    await _allergyRepository.ConnectAllergy(patient, allergy);
+                }
+            }
+            else
+            {
+                throw new ApplicationException("Patient already has allergy information.");
             }
         }
 
         public async Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId)
         {
-            var patient = await _patientRepository.GetPatientIncludesIllness(patientId);
+            var exists = await _patientRepository.PatientIllnessExists(patientId);
 
-            foreach (var req in requests)
+            if (!exists)
             {
-                var illness = await _illnessRepository.GetIllnessById(req.IllnessId);
-                await _illnessRepository.ConnectIllness(patient, illness);
+                var patient = await _patientRepository.GetPatientIncludesIllness(patientId);
+
+                foreach (var req in requests)
+                {
+                    var illness = await _illnessRepository.GetIllnessById(req.IllnessId);
+                    await _illnessRepository.ConnectIllness(patient, illness);
+                }
+            }
+            else
+            {
+                throw new ApplicationException("Patient already has illness information.");
             }
         }
 
         public async Task RegisterPatientMedication(IEnumerable<MedicationRequest> requests, int patientId)
         {
-            var patient = await _patientRepository.GetPatientIncludesMedication(patientId);
+            var exists = await _patientRepository.PatientMedicationExists(patientId);
 
-            foreach(var req in requests)
+            if (!exists)
             {
-                var medication = await _medicationRepository.GetMedicationById(req.MedicationId);
-                await _medicationRepository.ConnectMedicationAndPatient(patient, medication);
+                var patient = await _patientRepository.GetPatientIncludesMedication(patientId);
+
+                foreach (var req in requests)
+                {
+                    var medication = await _medicationRepository.GetMedicationById(req.MedicationId);
+                    await _medicationRepository.ConnectMedicationAndPatient(patient, medication);
+                }
+            }
+            else
+            {
+                throw new ApplicationException("Patient already has medication information.");
             }
         }
 

@@ -22,34 +22,44 @@ namespace Hospital_Management_System.Services.PatientVaccineServices
 
         public async Task CreatePatientVaccinations(IEnumerable<PatientVaccineRequest> patientVaccineRequests, int patientId)
         {
-            var patientExists = await _patientRepository.PatientExistsAsync(patientId);
+            var exists = await _patientVaccineRepository.PatientVaccineExists(patientId);
 
-            var vaccinesRows = await _vaccineRepository.GetNumberOfRows();
-
-            if(vaccinesRows != patientVaccineRequests.Count())
+            if (!exists)
             {
-                throw new InvalidOperationException("Request body has to be the same size as the number of all vaccines in the database.");
-            }
+                var patientExists = await _patientRepository.PatientExistsAsync(patientId);
 
-            if (!patientExists) throw new KeyNotFoundException("Patient doesn't exist");
+                var vaccinesRows = await _vaccineRepository.GetNumberOfRows();
 
-            foreach (var request in patientVaccineRequests)
-            {
-                var vaccineExists = await _vaccineRepository.VaccineExistsAsync(request.VaccineId);
-                if (!vaccineExists)
+                if (vaccinesRows != patientVaccineRequests.Count())
                 {
-                    throw new KeyNotFoundException("Vaccine doesn't exist");
+                    throw new InvalidOperationException("Request body has to be the same size as the number of all vaccines in the database.");
                 }
+
+                if (!patientExists) throw new KeyNotFoundException("Patient doesn't exist");
+
+                foreach (var request in patientVaccineRequests)
+                {
+                    var vaccineExists = await _vaccineRepository.VaccineExistsAsync(request.VaccineId);
+                    if (!vaccineExists)
+                    {
+                        throw new KeyNotFoundException("Vaccine doesn't exist");
+                    }
+                }
+
+                var patientVaccines = patientVaccineRequests.Select(patientVaccine => new PatientVaccine
+                {
+                    PatientId = patientId,
+                    VaccineId = patientVaccine.VaccineId,
+                    Status = patientVaccine.Status
+                });
+
+                await _patientVaccineRepository.AddPatientVaccinations(patientVaccines);
             }
-
-            var patientVaccines = patientVaccineRequests.Select(patientVaccine => new PatientVaccine
+            else
             {
-                PatientId = patientId,
-                VaccineId = patientVaccine.VaccineId,
-                Status = patientVaccine.Status
-            });
-
-            await _patientVaccineRepository.AddPatientVaccinations(patientVaccines);
+                throw new ApplicationException("Patient already has vaccination information.");
+            }
+           
         }
 
         public async Task<IEnumerable<PatientVaccineResponse>> GetPatientVaccinationsAsync(int patientId)
@@ -58,12 +68,6 @@ namespace Hospital_Management_System.Services.PatientVaccineServices
 
             var response = patientVaccines.Select(patientVaccine => patientVaccine.ToPatientVaccineDto());
             return response;
-        }
-
-        public Task<bool> PatientExistsAsync(int patientId)
-        {
-            var exists = _patientVaccineRepository.PatientVaccineExists(patientId);
-            return exists;
         }
     }
 }

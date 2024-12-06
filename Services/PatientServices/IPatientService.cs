@@ -13,6 +13,10 @@ namespace Hospital_Management_System.Services.PatientServices
         Task DeletePatientByIdAsync(int id);
         Task UpdatePatientByIdAsync(int id, PatientUpdateDto patientDto);
         Task<PatientDto> GetPatientBySSNAsync(string ssn);
+        Task<bool> PatientAllergyExists(int patientId);
+        Task<bool> PatientIllnessExists(int patientId);
+        Task<bool> PatientMedicationExists(int patientId);
+        Task<bool> PatientVaccinationExists(int patientId);
         Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId);
         Task RegisterPatientMedication(IEnumerable<MedicationRequest> requests, int patientId);
         Task RegisterPatientAllergy(IEnumerable<AllergyRequest> requests, int patientId);
