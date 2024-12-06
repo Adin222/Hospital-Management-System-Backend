@@ -16,9 +16,9 @@ namespace Hospital_Management_System.Mappers.AppointmentMappers
                 ReasonForVisit = appointment.ReasonForVisit,
                 Status = appointment.Status,
                 AppointmentDate = appointment.AppointmentDateTime,
-                SSN = appointment.Patient.JMBG,
-                FirstName = appointment.Patient.FirstName,
-                LastName = appointment.Patient.LastName
+                SSN = appointment.Patient?.JMBG,
+                FirstName = appointment.Patient?.FirstName,
+                LastName = appointment.Patient?.LastName
             };
         }
     }

@@ -19,7 +19,7 @@ namespace Hospital_Management_System.Services.AppointmentServices
             _userRepository = userRepository;
             _patientRepository = patientRepository;
         }
-        public async Task<AppointmentDTO> CreateAppointmentAsync(AppointmentRequest req, int DocId, int RecId, int PatId)
+        public async Task CreateAppointmentAsync(AppointmentRequest req, int DocId, int RecId, int PatId)
         {
             await _patientRepository.PatientExists(PatId);
             await _userRepository.DoctorExists(DocId);
@@ -35,13 +35,10 @@ namespace Hospital_Management_System.Services.AppointmentServices
 
             if (patient.JMBG != req.JMBG)
             {
-                throw new ApplicationException("JMBG is not valid");
+                throw new ApplicationException("SSN is not valid");
             }
 
-            var response = appointment.ToAppointmentDto();
-
             await _appointmentRepository.AddAppointmentAsync(appointment);
-            return response;
         }
 
         public async Task<IEnumerable<AppointmentDTO>> GetAllAppointments()

@@ -20,8 +20,8 @@ namespace Hospital_Management_System.Controllers.AppointmentController
         [Authorize(Roles = "RECEPTIONIST,ADMIN")]
         public async Task<IActionResult> CreateAppointment([FromBody] AppointmentRequest req, int doctorId, int receptionistId, int patientId)
         {
-               var appointment = await _appointmentService.CreateAppointmentAsync(req, doctorId, receptionistId, patientId);
-               return Ok(appointment);
+               await _appointmentService.CreateAppointmentAsync(req, doctorId, receptionistId, patientId);
+               return Ok("Appointment has been successfully created");
         }
 
         [HttpGet]
