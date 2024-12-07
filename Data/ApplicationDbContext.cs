@@ -23,6 +23,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Allergy> Allergies { get; set; }
     public DbSet<Vaccine> Vaccines { get; set; }
     public DbSet<PatientVaccine> PatientVaccines { get; set; }
+    public DbSet<PatientInformation> PatientInformation { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

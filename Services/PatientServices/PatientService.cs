@@ -7,6 +7,7 @@ using Hospital_Management_System.Models;
 using Hospital_Management_System.Repository.AllergyRepository;
 using Hospital_Management_System.Repository.IllnessRepository;
 using Hospital_Management_System.Repository.MedicationRepository;
+using Hospital_Management_System.Repository.PatientInformationRepository;
 using Hospital_Management_System.Repository.PatientRepository;
 
 namespace Hospital_Management_System.Services.PatientServices
@@ -17,13 +18,15 @@ namespace Hospital_Management_System.Services.PatientServices
         private readonly IIllnessRepository _illnessRepository;
         private readonly IAllergyRepository _allergyRepository;
         private readonly IMedicationRepository _medicationRepository;
+        private readonly IPatientInformationRepository _patientInfoRepository;
 
-        public PatientService(IPatientRepository patientRepository, IIllnessRepository illnessRepository, IMedicationRepository medicationRepository, IAllergyRepository allergyRepository)
+        public PatientService(IPatientRepository patientRepository, IIllnessRepository illnessRepository, IMedicationRepository medicationRepository, IAllergyRepository allergyRepository, IPatientInformationRepository patientInfoRepository)
         {
             _patientRepository = patientRepository;
             _illnessRepository = illnessRepository;
             _medicationRepository = medicationRepository;
             _allergyRepository = allergyRepository;
+            _patientInfoRepository = patientInfoRepository;
         }
 
         public async Task<PatientDto> CreatePatientAsync(PatientDto patient)
@@ -35,6 +38,16 @@ namespace Hospital_Management_System.Services.PatientServices
             var pat = await _patientRepository.AddPatientAsync(CreatedPatient);
 
             var response = pat.ToPatientDto();
+
+            var patientInformation = new PatientInformation
+            {
+                PatientId = CreatedPatient.PatientID,
+                Allergy = true,
+                ChronicIllness = true,
+                Medication = true,
+            };
+
+            await _patientInfoRepository.AddPatientInformation(patientInformation);
 
             return response;
         }
@@ -74,20 +87,20 @@ namespace Hospital_Management_System.Services.PatientServices
 
         public async Task<bool> PatientAllergyExists(int patientId)
         {
-            var patient = await _patientRepository.PatientAllergyExists(patientId);
+            var patient = await _patientInfoRepository.HasAllergy(patientId);
             return patient;
         }
 
         public async Task<bool> PatientIllnessExists(int patientId)
         {
-            var patient = await _patientRepository.PatientIllnessExists(patientId);
+            var patient = await _patientInfoRepository.HasIllness(patientId);
 
             return patient;
         }
 
         public async Task<bool> PatientMedicationExists(int patientId)
         {
-            var patient = await _patientRepository.PatientMedicationExists(patientId);
+            var patient = await _patientInfoRepository.HasMedication(patientId);
 
             return patient;
         }
@@ -101,9 +114,9 @@ namespace Hospital_Management_System.Services.PatientServices
 
         public async Task RegisterPatientAllergy(IEnumerable<AllergyRequest> requests, int patientId)
         {
-            var exists = await _patientRepository.PatientAllergyExists(patientId);
+            var exists = await _patientInfoRepository.HasAllergy(patientId);
 
-            if (!exists)
+            if (exists)
             {
                 var patient = await _patientRepository.GetPatientIncludesAllergy(patientId);
 
@@ -112,6 +125,12 @@ namespace Hospital_Management_System.Services.PatientServices
                     var allergy = await _allergyRepository.GetAllergyById(request.AllergyId);
                     await _allergyRepository.ConnectAllergy(patient, allergy);
                 }
+
+                var patientInformation = await _patientInfoRepository.GetPatientInfoById(patientId);
+
+                patientInformation.Allergy = !exists;
+
+                await _patientInfoRepository.UpdatePatientInformation(patientInformation);
             }
             else
             {
@@ -121,9 +140,9 @@ namespace Hospital_Management_System.Services.PatientServices
 
         public async Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId)
         {
-            var exists = await _patientRepository.PatientIllnessExists(patientId);
+            var exists = await _patientInfoRepository.HasIllness(patientId);
 
-            if (!exists)
+            if (exists)
             {
                 var patient = await _patientRepository.GetPatientIncludesIllness(patientId);
 
@@ -132,6 +151,12 @@ namespace Hospital_Management_System.Services.PatientServices
                     var illness = await _illnessRepository.GetIllnessById(req.IllnessId);
                     await _illnessRepository.ConnectIllness(patient, illness);
                 }
+
+                var patientInformation = await _patientInfoRepository.GetPatientInfoById(patientId);
+
+                patientInformation.ChronicIllness = !exists;
+
+                await _patientInfoRepository.UpdatePatientInformation(patientInformation);
             }
             else
             {
@@ -141,9 +166,9 @@ namespace Hospital_Management_System.Services.PatientServices
 
         public async Task RegisterPatientMedication(IEnumerable<MedicationRequest> requests, int patientId)
         {
-            var exists = await _patientRepository.PatientMedicationExists(patientId);
+            var exists = await _patientInfoRepository.HasMedication(patientId);
 
-            if (!exists)
+            if (exists)
             {
                 var patient = await _patientRepository.GetPatientIncludesMedication(patientId);
 
@@ -152,6 +177,12 @@ namespace Hospital_Management_System.Services.PatientServices
                     var medication = await _medicationRepository.GetMedicationById(req.MedicationId);
                     await _medicationRepository.ConnectMedicationAndPatient(patient, medication);
                 }
+
+                var patientInformation = await _patientInfoRepository.GetPatientInfoById(patientId);
+
+                patientInformation.Medication = !exists;
+
+                await _patientInfoRepository.UpdatePatientInformation(patientInformation);
             }
             else
             {
