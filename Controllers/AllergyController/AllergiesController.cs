@@ -31,5 +31,13 @@ namespace Hospital_Management_System.Controllers.AllergyController
             var response = await _allergyService.GetAllAllergiesAsync(patientId);
             return Ok(response);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAllAllergies()
+        {
+            var response = await _allergyService.GetAllAllergies();
+            return Ok(response);
+        }
     }
 }

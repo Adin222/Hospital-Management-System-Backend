@@ -26,6 +26,12 @@ namespace Hospital_Management_System.Repository.AllergyRepository
             }
         }
 
+        public async Task<ICollection<Allergy>> GetAllAllergies()
+        {
+            var allergies = await _context.Allergies.ToListAsync();
+            return allergies;
+        }
+
         public async Task<Allergy> GetAllergyById(int allergyId)
         {
             var allergy = await _context.Allergies.FindAsync(allergyId) ?? throw new KeyNotFoundException("Allergy doesn't exist");

@@ -22,6 +22,13 @@ namespace Hospital_Management_System.Services.AllergyServices
             await _allergyRepository.AddAllergy(allergy);
         }
 
+        public async Task<IEnumerable<AllergyResponse>> GetAllAllergies()
+        {
+            var allergies = await _allergyRepository.GetAllAllergies();
+            var response = allergies.Select(allergy => allergy.ToAllergyDto());
+            return response;
+        }
+
         public async Task<IEnumerable<AllergyResponse>> GetAllAllergiesAsync(int patientId)
         {
             var allergies = await _allergyRepository.GetAllPatientAllergies(patientId);

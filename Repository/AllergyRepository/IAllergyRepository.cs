@@ -7,6 +7,8 @@ namespace Hospital_Management_System.Repository.AllergyRepository
         Task AddAllergy(Allergy allergy);
         Task<Allergy> GetAllergyById(int allergyId);
         Task<ICollection<Allergy>> GetAllPatientAllergies(int patientId);
+        Task<ICollection<Allergy>> GetAllAllergies();
         Task ConnectAllergy(Patient patient, Allergy allergy);
+        
     }
 }
