@@ -8,5 +8,6 @@ namespace Hospital_Management_System.Repository.IllnessRepository
         Task<Illness> GetIllnessById(int illnessId);
         Task ConnectIllness(Patient patient, Illness illness);
         Task<ICollection<Illness>> GetAllIllnessesByPatientId(int patientId);
+        Task<ICollection<Illness>> GetAllIllnesses();
     }
 }

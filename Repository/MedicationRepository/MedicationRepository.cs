@@ -27,6 +27,12 @@ namespace Hospital_Management_System.Repository.MedicationRepository
             }
         }
 
+        public async Task<IEnumerable<Medication>> GetAllMedication()
+        {
+            var medications = await _context.Medications.ToListAsync();
+            return medications;
+        }
+
         public async Task<IEnumerable<Medication>> GetAllMedicationByPatientId(int patientId)
         {
             var medications = await _context.Patients

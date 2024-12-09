@@ -31,5 +31,13 @@ namespace Hospital_Management_System.Controllers.MedicationController
             await _medicationService.CreateMedication(request);
             return Ok("Medication successfully created");
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAllMedications()
+        {
+            var response = await _medicationService.GetAllMedicationsAsync();
+            return Ok(response);
+        }
     }
 }

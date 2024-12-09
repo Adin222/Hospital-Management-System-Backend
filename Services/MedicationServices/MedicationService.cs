@@ -31,5 +31,14 @@ namespace Hospital_Management_System.Services.MedicationServices
 
             return response;
         }
+
+        public async Task<IEnumerable<MedicationResponse>> GetAllMedicationsAsync()
+        {
+            var medications = await _medicationRepository.GetAllMedication();
+
+            var response = medications.Select(medication => medication.ToMedicationDto());
+
+            return response;
+        }
     }
 }

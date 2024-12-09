@@ -30,5 +30,13 @@ namespace Hospital_Management_System.Controllers.IllnessController
             var response = await _illnessService.GetAllChronicIllnessesAsync(patientId);
             return Ok(response);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAllIllnesses()
+        {
+            var response = await _illnessService.GetAllIllnesses();
+            return Ok(response);
+        }
     }
 }

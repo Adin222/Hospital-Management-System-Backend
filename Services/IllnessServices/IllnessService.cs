@@ -31,5 +31,14 @@ namespace Hospital_Management_System.Services.IllnessServices
 
             return response;
         }
+
+        public async Task<IEnumerable<IllnessResponse>> GetAllIllnesses()
+        {
+            var Illnesses = await _illnessRepository.GetAllIllnesses();
+
+            var response = Illnesses.Select(illness => illness.ToIllnessDto());
+
+            return response;
+        }
     }
 }

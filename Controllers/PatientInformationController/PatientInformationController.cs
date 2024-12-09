@@ -15,7 +15,7 @@ namespace Hospital_Management_System.Controllers.PatientInformationController
         }
 
         [HttpPut("allergy/{patientId}")]
-        [Authorize(Roles = "ADMIN,RECEPTIONIST")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
         public async Task<IActionResult> PutAllergyStatus(int patientId)
         {
             await _patientInformationService.UpdateAllergyState(patientId);
@@ -23,7 +23,7 @@ namespace Hospital_Management_System.Controllers.PatientInformationController
         }
 
         [HttpPut("illness/{patientId}")]
-        [Authorize(Roles = "ADMIN,RECEPTIONIST")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
         public async Task<IActionResult> PutIllnessStatus(int patientId)
         {
             await _patientInformationService.UpdateIllnessState(patientId);
@@ -31,7 +31,7 @@ namespace Hospital_Management_System.Controllers.PatientInformationController
         }
 
         [HttpPut("medication/{patientId}")]
-        [Authorize(Roles = "ADMIN,RECEPTIONIST")]
+        [Authorize(Roles = "ADMIN,DOCTOR")]
         public async Task<IActionResult> PutMedicationStatus(int patientId)
         {
             await _patientInformationService.UpdateMedicationState(patientId);

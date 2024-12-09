@@ -6,5 +6,6 @@ namespace Hospital_Management_System.Services.MedicationServices
     {
         Task CreateMedication(MedicationRequest request);
         Task<IEnumerable<MedicationResponse>> GetAllMedicationsAsync(int patientId);
+        Task<IEnumerable<MedicationResponse>> GetAllMedicationsAsync();
     }
 }

@@ -6,5 +6,6 @@ namespace Hospital_Management_System.Services.IllnessServices
     {
         Task CreateIllness(IllnessRequest illness);
         Task<IEnumerable<IllnessResponse>> GetAllChronicIllnessesAsync(int patientId);
+        Task<IEnumerable<IllnessResponse>> GetAllIllnesses();
     }
 }

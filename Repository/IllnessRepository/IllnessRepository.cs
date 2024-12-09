@@ -26,6 +26,12 @@ namespace Hospital_Management_System.Repository.IllnessRepository
             }  
         }
 
+        public async Task<ICollection<Illness>> GetAllIllnesses()
+        {
+            var Illnesses = await _context.Illnesses.ToListAsync();
+            return Illnesses;
+        }
+
         public async Task<ICollection<Illness>> GetAllIllnessesByPatientId(int patientId)
         {
             var illnesses = await _context.Patients
