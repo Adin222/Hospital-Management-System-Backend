@@ -5,9 +5,10 @@ namespace Hospital_Management_System.Repository.RecordsRepository
     public interface IRecordRepository
     {
         Task<MedicalRecord> GetMedicalRecordById(int id);
-        Task AddMedicalRecord(MedicalRecord record);
+        Task AddMedicalRecord(IEnumerable<MedicalRecord> records);
         Task UpdateMedicalRecord(MedicalRecord record);
         Task<IEnumerable<MedicalRecord>> GetAllMedicalRecordsByDoctorId(int doctorId);
+        Task<IEnumerable<MedicalRecord>> GetMedicalRecordsByDoctorAndPatient(int doctorId, int patientId);
         Task<IEnumerable<MedicalRecord>> GetAllMedicalRecords();
         Task DeleteMedicalRecord(MedicalRecord record);
         Task<bool> GetRecordByAppointmentId(int id);

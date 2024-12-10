@@ -16,6 +16,15 @@ namespace Hospital_Management_System.Controllers.RecordController
             _recordService = recordService;
         }
 
+        [HttpGet("{doctorId}/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAllRecords(int doctorId, int patientId)
+        {
+            var response = await _recordService.GetMedicalRecordsByDoctorAndPatient(doctorId, patientId);
+
+            return Ok(response);
+        }
+
         [HttpGet]
         [Authorize(Roles = "ADMIN,DOCTOR")]
         public async Task<IActionResult> GetAllRecords()
@@ -51,10 +60,10 @@ namespace Hospital_Management_System.Controllers.RecordController
         }
         [HttpPost("record/{patientId}/{doctorId}/{appointmentId}")]
         [Authorize(Roles = "ADMIN,DOCTOR")]
-        public async Task<IActionResult> CreateRecord([FromBody] RecordRequest req, int patientId, int doctorId, int appointmentId)
+        public async Task<IActionResult> CreateRecord([FromBody] IEnumerable<RecordRequest> request, int patientId, int doctorId, int appointmentId)
         {
-              var record = await _recordService.CreateRecord(req, patientId, doctorId, appointmentId);
-              return Ok(record);
+              await _recordService.CreateRecord(request, patientId, doctorId, appointmentId);
+              return Ok("Medical record has been successfully created");
         }
 
         [HttpPut("record/{id}")]

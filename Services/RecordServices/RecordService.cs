@@ -22,17 +22,13 @@ namespace Hospital_Management_System.Services.RecordServices
            _patientRepository = patientRepository;
            _appointmentRepository = appointmentRepository;
         }
-        public async Task<RecordResponse> CreateRecord(RecordRequest req, int patId, int docId, int appId)
+        public async Task CreateRecord(IEnumerable<RecordRequest> requests, int patId, int docId, int appId)
         {
             await IsDataValid(docId, patId, appId);
 
-            var record = new MedicalRecord(req, patId, docId, appId);
+            var records = requests.Select(record => new MedicalRecord(record, patId, docId, appId));
 
-            await _recordRepository.AddMedicalRecord(record);
-
-            var response = record.ToRecordResponseDto();
-
-            return response;
+            await _recordRepository.AddMedicalRecord(records);
         }
         public async Task DeleteMedicalRecordAsync(int Id)
         {
@@ -116,6 +112,14 @@ namespace Hospital_Management_System.Services.RecordServices
 
             var response = records.Select(record => record.ToRecordResponseDto()).ToList();
 
+            return response;
+        }
+
+        public async Task<IEnumerable<RecordResponse>> GetMedicalRecordsByDoctorAndPatient(int doctorId, int patientId)
+        {
+            var records = await _recordRepository.GetMedicalRecordsByDoctorAndPatient(doctorId, patientId);
+
+            var response = records.Select(record => record.ToRecordResponseDto());
             return response;
         }
     }

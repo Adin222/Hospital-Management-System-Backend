@@ -10,9 +10,9 @@ namespace Hospital_Management_System.Repository.RecordsRepository
         {
             _context = context;
         }
-        public async Task AddMedicalRecord(MedicalRecord record)
+        public async Task AddMedicalRecord(IEnumerable<MedicalRecord> records)
         {
-            _context.MedicalRecords.Add(record);
+            _context.MedicalRecords.AddRange(records);
             await _context.SaveChangesAsync();
         }
 
@@ -38,6 +38,18 @@ namespace Hospital_Management_System.Repository.RecordsRepository
         {
             var record = await _context.MedicalRecords.FindAsync(id) ?? throw new KeyNotFoundException("Medical record doesn't exist");
             return record;
+        }
+
+        public async Task<IEnumerable<MedicalRecord>> GetMedicalRecordsByDoctorAndPatient(int doctorId, int patientId)
+        {
+            var patient = await _context.Patients.FindAsync(patientId) ?? throw new KeyNotFoundException("Patient doesn't exist");
+            var doctor = await _context.Doctors.FindAsync(doctorId) ?? throw new KeyNotFoundException("Doctor doesn't exist");
+
+            var records = await _context.MedicalRecords
+                .Where(p => p.DoctorID == doctorId && p.PatientID == patientId)
+                .ToListAsync();
+
+            return records;
         }
 
         public async Task<bool> GetRecordByAppointmentId(int id)
