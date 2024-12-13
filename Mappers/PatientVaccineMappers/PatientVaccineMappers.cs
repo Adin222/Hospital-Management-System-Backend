@@ -11,6 +11,7 @@ namespace Hospital_Management_System.Mappers.PatientVaccineMappers
             {
                 PatientId = patientVaccine.PatientId,
                 VaccineId = patientVaccine.VaccineId,
+                VaccineName = patientVaccine.Vaccine.VaccineName,
                 Status = patientVaccine.Status,
             };
         }

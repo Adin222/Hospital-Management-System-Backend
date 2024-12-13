@@ -20,9 +20,13 @@ namespace Hospital_Management_System.Repository.PatientVaccineRepository
 
         public async Task<IEnumerable<PatientVaccine>> GetAllVaccinationsByPatientId(int patientId)
         {
-            var vaccinations = await _context.PatientVaccines
-                .Where(pt => pt.PatientId == patientId)
+            var vaccinations = await _context.Patients
+                .Include(p => p.PatientVaccines)
+                .ThenInclude(pv => pv.Vaccine)
+                .Where(p => p.PatientID == patientId)
+                .SelectMany(p => p.PatientVaccines)
                 .ToListAsync();
+
             return vaccinations;
         }
 
