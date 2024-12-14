@@ -28,9 +28,9 @@ namespace Hospital_Management_System.Repository.RecordsRepository
             return records;
         }
 
-        public async Task<IEnumerable<MedicalRecord>> GetAllMedicalRecordsByDoctorId(int doctorId)
+        public async Task<IEnumerable<MedicalRecord>> GetAllMedicalRecordsByPatientId(int patientId)
         {
-            var records = await _context.MedicalRecords.Where(dc => dc.DoctorID == doctorId).ToListAsync();
+            var records = await _context.MedicalRecords.Include(p => p.Doctor).Include(a => a.Appointment).Where(dc => dc.PatientID == patientId).ToListAsync();
             return records;
         }
 

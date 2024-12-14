@@ -8,7 +8,7 @@ namespace Hospital_Management_System.Services.RecordServices
         Task CreateRecord(IEnumerable<RecordRequest> requests, int patId, int docId, int appId);
         Task DeleteMedicalRecordAsync(int Id);
         Task<RecordResponse> GetMedicalRecordByIdAsync(int Id);
-        Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsByDoctorIdAsync(int doctorId);
+        Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsByPatientIdAsync(int patientId);
         Task<IEnumerable<RecordResponse>> GetMedicalRecordsByDoctorAndPatient(int doctorId, int patientId);
         Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsAsync();
         Task IsDataValid(int docId, int patId, int appId);

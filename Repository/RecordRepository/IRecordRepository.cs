@@ -7,7 +7,7 @@ namespace Hospital_Management_System.Repository.RecordsRepository
         Task<MedicalRecord> GetMedicalRecordById(int id);
         Task AddMedicalRecord(IEnumerable<MedicalRecord> records);
         Task UpdateMedicalRecord(MedicalRecord record);
-        Task<IEnumerable<MedicalRecord>> GetAllMedicalRecordsByDoctorId(int doctorId);
+        Task<IEnumerable<MedicalRecord>> GetAllMedicalRecordsByPatientId(int patientId);
         Task<IEnumerable<MedicalRecord>> GetMedicalRecordsByDoctorAndPatient(int doctorId, int patientId);
         Task<IEnumerable<MedicalRecord>> GetAllMedicalRecords();
         Task DeleteMedicalRecord(MedicalRecord record);

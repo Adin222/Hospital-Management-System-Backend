@@ -33,11 +33,11 @@ namespace Hospital_Management_System.Controllers.RecordController
              return Ok(records);
         }
 
-        [HttpGet("{doctorId}")]
+        [HttpGet("{patientId}")]
         [Authorize(Roles = "ADMIN,DOCTOR")]
-        public async Task<IActionResult> GetAllRecordsOfDoctor(int doctorId)
+        public async Task<IActionResult> GetAllRecordsOfPatient(int patientId)
         {
-            var record = await _recordService.GetAllMedicalRecordsByDoctorIdAsync(doctorId);
+            var record = await _recordService.GetAllMedicalRecordsByPatientIdAsync(patientId);
             return Ok(record);
         }
 

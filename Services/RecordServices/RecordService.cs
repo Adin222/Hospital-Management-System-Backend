@@ -28,6 +28,12 @@ namespace Hospital_Management_System.Services.RecordServices
 
             var records = requests.Select(record => new MedicalRecord(record, patId, docId, appId));
 
+            var appointment = await _appointmentRepository.GetAppointmentById(appId);
+
+            appointment.Status = "Done";
+
+            await _appointmentRepository.UpdateAppointment(appointment);
+
             await _recordRepository.AddMedicalRecord(records);
         }
         public async Task DeleteMedicalRecordAsync(int Id)
@@ -44,9 +50,9 @@ namespace Hospital_Management_System.Services.RecordServices
             return response;
         }
 
-        public async Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsByDoctorIdAsync(int doctorId)
+        public async Task<IEnumerable<RecordResponse>> GetAllMedicalRecordsByPatientIdAsync(int patientId)
         {
-            var records = await _recordRepository.GetAllMedicalRecordsByDoctorId(doctorId);
+            var records = await _recordRepository.GetAllMedicalRecordsByPatientId(patientId);
 
             var response = records.Select(record => record.ToRecordResponseDto()).ToList();
 
