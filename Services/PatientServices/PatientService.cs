@@ -210,6 +210,14 @@ namespace Hospital_Management_System.Services.PatientServices
             {
                 patient.Email = patientDto.Email;
             }
+            if (!string.IsNullOrEmpty(patient.Education))
+            {
+                patient.Education = patientDto.Education;
+            }
+            if (!string.IsNullOrEmpty(patient.Address))
+            {
+                patient.Address = patientDto.Address;
+            }
             await _patientRepository.UpdatePatient(patient);
         }
     }
