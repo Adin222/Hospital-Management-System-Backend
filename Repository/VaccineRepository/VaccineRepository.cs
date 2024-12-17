@@ -28,7 +28,6 @@ namespace Hospital_Management_System.Repository.VaccineRepository
         {
             return await _context.Vaccines.CountAsync();
         }
-
         public async Task<bool> VaccineExistsAsync(int vaccineId)
         {
             return await _context.Vaccines.AnyAsync(vaccine => vaccine.VaccineId == vaccineId);

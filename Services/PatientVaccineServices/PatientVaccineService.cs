@@ -69,5 +69,17 @@ namespace Hospital_Management_System.Services.PatientVaccineServices
             var response = patientVaccines.Select(patientVaccine => patientVaccine.ToPatientVaccineDto());
             return response;
         }
+
+        public async Task UpdatePatientVaccinationsAsync(IEnumerable<PatientVaccineRequest> patientVaccineRequests, int patientId)
+        {
+            var vaccinations = patientVaccineRequests.Select(request => new PatientVaccine
+            {
+                PatientId = patientId,
+                VaccineId = request.VaccineId,
+                Status = request.Status
+            });
+
+            await _patientVaccineRepository.UpdatePatientVaccinations(vaccinations, patientId);
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace Hospital_Management_System.Services.PatientVaccineServices
     {
         Task<IEnumerable<PatientVaccineResponse>> GetPatientVaccinationsAsync(int patientId);
         Task CreatePatientVaccinations(IEnumerable<PatientVaccineRequest> patientVaccineRequests, int patientId);
+        Task UpdatePatientVaccinationsAsync(IEnumerable<PatientVaccineRequest> patientVaccineRequests, int patientId);
     }
 }

@@ -7,5 +7,7 @@ namespace Hospital_Management_System.Repository.PatientVaccineRepository
         Task<IEnumerable<PatientVaccine>> GetAllVaccinationsByPatientId(int patientId);
         Task AddPatientVaccinations(IEnumerable<PatientVaccine> patientVaccine);
         Task<bool> PatientVaccineExists(int patientId);
+        Task UpdatePatientVaccinations(IEnumerable<PatientVaccine> patientVaccinations, int patientId);
+        Task<PatientVaccine> GetPatientVaccineById(int id);
     }
 }

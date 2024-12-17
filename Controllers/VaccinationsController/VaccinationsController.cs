@@ -31,5 +31,13 @@ namespace Hospital_Management_System.Controllers.VaccinationsController
             await _patientVaccineService.CreatePatientVaccinations(vaccinations, patientId);
             return Ok("Vaccinations successfully saved");
         }
+
+        [HttpPut("{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> UpdatePatientVaccinations([FromBody] ICollection<PatientVaccineRequest> vaccinations, int patientId)
+        {
+            await _patientVaccineService.UpdatePatientVaccinationsAsync(vaccinations, patientId);
+            return Ok("Patient vaccinations successfully updated");
+        }
     }
 }
