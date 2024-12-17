@@ -34,7 +34,7 @@ namespace Hospital_Management_System.Controllers.RecordController
         }
 
         [HttpGet("{patientId}")]
-        [Authorize(Roles = "ADMIN,DOCTOR")]
+        [Authorize]
         public async Task<IActionResult> GetAllRecordsOfPatient(int patientId)
         {
             var record = await _recordService.GetAllMedicalRecordsByPatientIdAsync(patientId);
