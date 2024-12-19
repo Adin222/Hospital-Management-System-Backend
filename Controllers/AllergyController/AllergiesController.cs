@@ -18,7 +18,7 @@ namespace Hospital_Management_System.Controllers.AllergyController
 
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> CreateIllness([FromBody] AllergyRequest request)
+        public async Task<IActionResult> CreateAllergy([FromBody] AllergyRequest request)
         {
             await _allergyService.CreateAllergy(request);
             return Ok("Allergy has been successfully registered");
@@ -26,7 +26,7 @@ namespace Hospital_Management_System.Controllers.AllergyController
 
         [HttpGet("{patientId}")]
         [Authorize]
-        public async Task<IActionResult> GetAllIllnesses(int patientId)
+        public async Task<IActionResult> GetAllAllergiesByPatient(int patientId)
         {
             var response = await _allergyService.GetAllAllergiesAsync(patientId);
             return Ok(response);
@@ -39,5 +39,22 @@ namespace Hospital_Management_System.Controllers.AllergyController
             var response = await _allergyService.GetAllAllergies();
             return Ok(response);
         }
+
+        [HttpGet("unassigned/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAllUnassignedAllergies(int patientId)
+        {
+            var response = await _allergyService.GetUnassignedAllergies(patientId);
+            return Ok(response);
+        }
+
+        [HttpPost("allergy/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> AddPatientAllergy([FromBody] AllergyRequest request, int patientId)
+        {
+            await _allergyService.AddNewPatientAllergyAsync(request, patientId);
+            return Ok("Patient allergy successfully added");
+        }
+
     }
 }
