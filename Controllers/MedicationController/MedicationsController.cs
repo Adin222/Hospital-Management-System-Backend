@@ -39,5 +39,21 @@ namespace Hospital_Management_System.Controllers.MedicationController
             var response = await _medicationService.GetAllMedicationsAsync();
             return Ok(response);
         }
+
+        [HttpGet("unassigned/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAllUnassignedMedication(int patientId)
+        {
+            var response = await _medicationService.GetUnassignedMedication(patientId);
+            return Ok(response);
+        }
+
+        [HttpPost("medication/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> AddPatientMedication([FromBody] MedicationRequest request, int patientId)
+        {
+            await _medicationService.AddNewPatientMedicationAsync(request, patientId);
+            return Ok("Patient medication successfully added");
+        }
     }
 }

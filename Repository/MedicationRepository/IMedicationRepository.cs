@@ -7,6 +7,7 @@ namespace Hospital_Management_System.Repository.MedicationRepository
         Task AddMedication(Medication medication);
         Task<Medication> GetMedicationById(int medicationId);
         Task ConnectMedicationAndPatient(Patient patient, Medication medication);
+        Task DisconnectMedicationAndPatient(Patient patient, Medication medication);
         Task<IEnumerable<Medication>> GetAllMedicationByPatientId(int patientId);
         Task<IEnumerable<Medication>> GetAllMedication();
     }

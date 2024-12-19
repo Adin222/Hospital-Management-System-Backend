@@ -38,5 +38,21 @@ namespace Hospital_Management_System.Controllers.IllnessController
             var response = await _illnessService.GetAllIllnesses();
             return Ok(response);
         }
+
+        [HttpGet("unassigned/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAllUnassignedIllnesses(int patientId)
+        {
+            var response = await _illnessService.GetUnassignedIllnesses(patientId);
+            return Ok(response);
+        }
+
+        [HttpPost("illness/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> AddPatientIllness([FromBody] IllnessRequest request, int patientId)
+        {
+            await _illnessService.AddNewPatientIllnessAsync(request, patientId);
+            return Ok("Patient illness successfully added");
+        }
     }
 }

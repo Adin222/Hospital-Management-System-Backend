@@ -27,6 +27,16 @@ namespace Hospital_Management_System.Repository.MedicationRepository
             }
         }
 
+        public async Task DisconnectMedicationAndPatient(Patient patient, Medication medication)
+        {
+            if (!patient.Medications.Contains(medication))
+            {
+                return;
+            }
+            patient.Medications.Remove(medication);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Medication>> GetAllMedication()
         {
             var medications = await _context.Medications.ToListAsync();

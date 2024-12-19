@@ -33,7 +33,10 @@ namespace Hospital_Management_System.Repository.PatientRepository
 
         public async Task<Patient> GetPatientByID(int id)
         {
-           var patient = await _context.Patients.Include(p => p.Allergies)
+           var patient = await _context.Patients
+                .Include(p => p.Allergies)
+                .Include(p => p.Illnesses)
+                .Include(p => p.Medications)
                 .Where(p => p.PatientID == id)
                 .FirstOrDefaultAsync() ?? throw new KeyNotFoundException("Patient doesn't exist");
 
