@@ -2,7 +2,6 @@
 using Hospital_Management_System.DTO.IllnessDTOs;
 using Hospital_Management_System.DTO.MedicationDTOs;
 using Hospital_Management_System.DTO.PatientDTOs;
-using Hospital_Management_System.Services.MedicationServices;
 using Hospital_Management_System.Services.PatientServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +13,10 @@ namespace Hospital_Management_System.Controllers.PatientController
     public class PatientsController : ControllerBase
     {
         private readonly IPatientService _patientService;
-        private readonly IMedicationService _medicationService;
 
-        public PatientsController(IPatientService patientService, IMedicationService medicationService)
+        public PatientsController(IPatientService patientService)
         {
             _patientService = patientService;
-            _medicationService = medicationService;
         }
 
         [HttpPost("patient")]
@@ -130,12 +127,17 @@ namespace Hospital_Management_System.Controllers.PatientController
             return Ok(patient);
         }
 
-        [HttpDelete("medication/{patientId}")]
+        [HttpGet("patient/overview/{patientId}")]
         [Authorize]
-        public async Task<IActionResult> RemovePatientMedication([FromBody] MedicationRequest request, int patientId)
+        public async Task<IActionResult> PatientStatus(int patientId)
         {
-            await _medicationService.RemovePatientMedicationAsync(request, patientId);
-            return Ok("Medication successfully disconnected");
+            var vaccines = await _patientService.PatientVaccinationExists(patientId);
+            var allergies = await _patientService.PatientAllergyExists(patientId);
+            var illnesses = await _patientService.PatientIllnessExists(patientId);
+            var medication = await _patientService.PatientMedicationExists(patientId);
+            var response = vaccines && !allergies && !illnesses && !medication;
+
+            return Ok(response);
         }
     }
 }

@@ -55,5 +55,13 @@ namespace Hospital_Management_System.Controllers.MedicationController
             await _medicationService.AddNewPatientMedicationAsync(request, patientId);
             return Ok("Patient medication successfully added");
         }
+
+        [HttpDelete("medication/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> RemovePatientMedication([FromBody] MedicationRequest request, int patientId)
+        {
+            await _medicationService.RemovePatientMedicationAsync(request, patientId);
+            return Ok("Medication successfully disconnected");
+        }
     }
 }
