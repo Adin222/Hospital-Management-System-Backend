@@ -135,7 +135,9 @@ namespace Hospital_Management_System.Controllers.PatientController
             var allergies = await _patientService.PatientAllergyExists(patientId);
             var illnesses = await _patientService.PatientIllnessExists(patientId);
             var medication = await _patientService.PatientMedicationExists(patientId);
-            var response = vaccines && !allergies && !illnesses && !medication;
+            var hasRecords = await _patientService.PatientMedicalRecordExists(patientId);
+
+            var response = vaccines && !allergies && !illnesses && !medication && hasRecords;
 
             return Ok(response);
         }

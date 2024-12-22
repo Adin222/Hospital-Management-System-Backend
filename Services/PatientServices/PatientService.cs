@@ -98,6 +98,12 @@ namespace Hospital_Management_System.Services.PatientServices
             return patient;
         }
 
+        public async Task<bool> PatientMedicalRecordExists(int patientId)
+        {
+            var exists = await _patientRepository.PatientMedicalRecordExists(patientId);
+            return exists;
+        }
+
         public async Task<bool> PatientMedicationExists(int patientId)
         {
             var patient = await _patientInfoRepository.HasMedication(patientId);

@@ -61,7 +61,6 @@ namespace Hospital_Management_System.Repository.RecordsRepository
             return appointment != null;
         }
 
-
         public async Task UpdateMedicalRecord(MedicalRecord record)
         {
             _context.MedicalRecords.Update(record);

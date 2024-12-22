@@ -17,6 +17,7 @@ namespace Hospital_Management_System.Services.PatientServices
         Task<bool> PatientIllnessExists(int patientId);
         Task<bool> PatientMedicationExists(int patientId);
         Task<bool> PatientVaccinationExists(int patientId);
+        Task<bool> PatientMedicalRecordExists(int patientId);
         Task RegisterPatientChronicIllness(IEnumerable<IllnessRequest> requests, int patientId);
         Task RegisterPatientMedication(IEnumerable<MedicationRequest> requests, int patientId);
         Task RegisterPatientAllergy(IEnumerable<AllergyRequest> requests, int patientId);

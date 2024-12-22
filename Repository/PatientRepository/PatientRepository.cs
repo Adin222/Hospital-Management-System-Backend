@@ -102,6 +102,15 @@ namespace Hospital_Management_System.Repository.PatientRepository
             return await _context.Patients.AnyAsync(p => p.PatientID == patientId);
         }
 
+        public async Task<bool> PatientMedicalRecordExists(int patientId)
+        {
+            var exists = await _context.Patients
+                 .AnyAsync(p => p.PatientID == patientId && p.MedicalRecords.Any());
+
+            return exists;
+                
+        }
+
         public async Task<bool> PatientVaccinationExists(int patientId)
         {
             var patient = await _context.Patients
