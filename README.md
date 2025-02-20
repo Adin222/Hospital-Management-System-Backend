@@ -1,4 +1,4 @@
-# Hospital Managment System
+# Hospital Management System
 
 Welcome to my repository! This is my Hospital Management System project, where I have developed an API that manages patients, staff, and appointments. The database used here is PostgreSQL, and to make testing the routes easier, I have also included Swagger API documentation.
 
