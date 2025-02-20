@@ -16,7 +16,7 @@ Admin in this system is a user that can manage empoyees and do what every other 
 
 A receptionist can create, view, edit, and delete both patients and appointments. Whenever a new appointment is created, the system also records who created it. Receptionists can access all recorded patient profiles and view their medical records. When a patient cancels an appointment, the receptionist must manually update its status. After a certain period, a cron job runs to permanently delete canceled appointments. I implemented the cron job using PgAgent.
 
-## Docotr employee
+## Doctor employee
 
 A doctor can view only the patients who have had an appointment with them. They do not have access to patients who have never visited them. A doctor can create, view, update patients medical record. When a patient comes to their very first appointment, the doctor asks a few general questions:
 
